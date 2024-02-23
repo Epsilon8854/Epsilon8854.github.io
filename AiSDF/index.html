@@ -159,80 +159,21 @@
                     <img src="./img/overview.png" width="100%">
                 </div>
                 <br>
-
+                <div class="text-justify">
+                    Given a stream of posed depth images, AiSDF first selects the keyframe and adds it to the keyframe set for continual learning. We update the global Atlanta frame (AF) by extracting the dominant directions from a new keyframe and then generate surfels that represent the planar regions supported by the updated global AF. From a set of keyframes with Atlanta-aware surfels, we sample the 3D points considering the structure of the scene. Finally, sampled point x is queried to MLP that outputs signed distance value s, and we optimize the network in a self-supervised manner by measuring the loss between s and bound b. Note that we intentionally present intermediate steps of continual learning to show the process of extracting the new Atlanta direction and surfels supported by updated global AF. In Atlanta-aware sampling (blue box), we use the ground truth mesh to visualize the sampling effectively. The final mesh result indicates the reconstructed mesh by AiSDF using all keyframes
+                      
+                </div>
                 
             </div>
         </div>
-	<div class="row">
-	<div class="col-md-8 col-md-offset-2">
-                <h3>
-                    Energy-based Optimization
-                </h3>
-                <div class="text-justify">
-                    By utilizing surface fields, we perform an energy-based optimization to find the optimal rigid registration to align target object in a pair of scenes. Our loss function consists of <i> Keypoint Energy</i> and <i>Matching Energy</i>. Keypoint energy provides an initial approximate solution by minimizing the ditance between manually annotated keypoint coordinates, and is then gradually annealed through the optimization. The robust matching energy compares the surface field of the two scenes on an active set of samples, given the current estimate of the rigid transform. To make the comparison robust to outliers, we utilize a robust kernel  <img src="./img/kappa.jpg"> and apply it on our residuals.
-                    
-                    <br><br>
-                    
-                </div>
-		<br>
-                <div class="text-center">
-                    <img src="./img/matching_energy.jpg" width="50%">
-                </div>
-                <br>
-		<div class="text-justify">
-                    
-                    Performing gradient-based optimization on a field with a co-domain of {0,1} is challenging, hence we smooth the surface field by convolving the categorical
-field with a zero-mean Gaussian of isotropic covariance matrix <img src="./img/cov.jpg">, and derive <img src="./img/smooth_surface.jpg">. The residual is then efined using this smooth surface field:
-                    <br><br>
-                    
-                </div>
-		<br>
-                <div class="text-center">
-                    <img src="./img/residual_formula.jpg" width="50%">
-                </div>
-                <br>
-		<div class="text-center">
-                    <video id="refdir" width="100%" playsinline autoplay loop muted>
-                        <source src="video/surfacevssmooth.mp4" type="video/mp4" />
-                    </video>
-                </div>
-		
-            </div>
-        </div>	
- 	<div class="row">
-	<div class="col-md-8 col-md-offset-2">
-                <h3>
-                    Sampling
-                </h3>
-                <div class="text-justify">
-                   A Metropolis-Hastings sampling algorithm is used to iteratively update set of samples. The sample set is initializaed by the keypoints and every N=20 iterations is updated by adding uniform noise to current set and accepting new points that are <i> in close correspondence</i>, <i> not too close to current set of samples </i> and <i> are close to surface</i>.
-                    <br><br>
-                    
-                </div>
-                <br>
-		
-		<table>
-		    <tr >
-			<td>
-			   <video class="video" id="s1"  width="100%"  loop playsinline autoPlay muted src="video/lego_all.mp4" onplay="resizeAndPlay(this)"></video>
-			  
-		       </td>
-			<td>
-			    <video class="video" id="s2"  width="100%"  loop playsinline autoPlay muted src="video/pip_all.mp4" onplay="resizeAndPlay(this)"></video>
-		       </td>
-		     
-		    </tr >
-		    
-		</table>
-            </div>
-        </div>	
-        <div class="row">
+
+    <div class="row">
 	<div class="col-md-8 col-md-offset-2">
                 <h3>
                     Results
                 </h3>
 		<div class="text-justify">
-                  Registration results:
+                  Registration results (ScanNet):
                     
                 </div>
 		<table>
@@ -260,28 +201,9 @@ field with a zero-mean Gaussian of isotropic covariance matrix <img src="./img/c
 		</table>
 		<table width="100%" style="table-layout:fixed"><tr><td style="text-align:center" width="33%">Bench</td><td style="text-align:center" width="33%">Bust</td><td style="text-align:center" width="33%">Jar</td></tr></table>
            	
-        	<br>
-		<div class="text-justify">
-                  Comparison to <a href="http://vladlen.info/papers/fast-global-registration.pdf">Fast Global Registration</a> applied to point clouds extracted from NeRF estimated depth map:
-                    
-                </div>
-                <br>
-		<div class="text-center">
-                    <video id="refdir" width="100%" playsinline autoplay loop muted>
-                        <source src="video/FGR_comparison.mp4" type="video/mp4" />
-                    </video>
-                </div>
-                <div class="text-justify">
-                   Registration iterations:
-                    
-                </div>
-                <br>
-		<div class="text-center">
-                    <video id="refdir" width="100%" playsinline autoplay loop muted>
-                        <source src="video/iterations.mp4" type="video/mp4" />
-                    </video>
-                </div>
-		<div class="text-justify">
+   
+
+		<!-- <div class="text-justify">
                    Ablation Study:
                     
                 </div>
@@ -292,17 +214,17 @@ field with a zero-mean Gaussian of isotropic covariance matrix <img src="./img/c
                     </video>
                 </div>	
             </div>
-        </div>	
+        </div>	 -->
         
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <h3>
-                    Video
+                    Supplemetary Video
                 </h3>
                 <div class="text-center">
-                    <div style="position:relative;padding-top:56.25%;">
-                        <iframe src="https://youtube.com/embed/S071rGezdNM" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;"></iframe>
-                    </div>
+                    <video id="refdir" width="100%" playsinline autoplay loop muted>
+                        <source src="video/RA-L_AiSDF_supplementary_video.mp4" type="video/mp4" />
+                    </video>
                 </div>
             </div>
         </div>    
