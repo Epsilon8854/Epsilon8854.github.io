@@ -176,13 +176,13 @@
                   Comparison:
                     
                 </div>
-		<table>
-		    <tr >
-			<td>
-			   <video class="video" id="reg1"  width="100%"  loop playsinline autoPlay muted src="video/31_vid.mp4" onplay="resizeAndPlay(this)"></video>
+                <table>
+                    <tr >
+                        <td>
+                            <video class="video" id="reg1"  width="100%"  loop playsinline autoPlay muted src="video/31_vid.mp4" onplay="resizeAndPlay(this)"></video>
                    	   <canvas height=0 class="videoMerge" id="reg1Merge"></canvas>
 				
-			  
+                          
 		       </td>
 			<td>
 			   <video class="video" id="reg2"  width="100%"  loop playsinline autoPlay muted src="video/apt_3_nav.mp4" onplay="resizeAndPlay(this)"></video>
@@ -192,7 +192,7 @@
 		       </td>
 			<!-- <td>
 			   <video class="video" id="reg3"  width="100%"  loop playsinline autoPlay muted src="video/jar.mp4" onplay="resizeAndPlay(this)"></video>
-                   	   <canvas height=0 class="videoMerge" id="reg3Merge"></canvas>
+               <canvas height=0 class="videoMerge" id="reg3Merge"></canvas>
 			   
 		       </td> -->
 		     
@@ -200,8 +200,21 @@
 		    
 		</table>
 		<table width="100%" style="table-layout:fixed"><tr><td style="text-align:center" width="50%">scannet_0031</td><td style="text-align:center" width="50%">apt_3_nav</td></tr></table>
-           	
-   
+        
+        <div class="text-justify">
+            Qualitatitve result on Atalanta sequence:
+            
+        </div>
+               
+        <div class="text-center">
+            <img src="./img/explicit.png" width="100%">
+        </div>
+        
+            
+        <p class="text-justify">
+            AiSDF can also reconstruct more general indoor scene using atlanta assumption. The right image presents the explicit planar map composed of surfels, where green color denotes the surfels supported by
+            the vertical Atlanta direction, and the other colors represent the surfels by the other horizontal Atlanta directions.
+        </p>
 
 		<!-- <div class="text-justify">
                    Ablation Study:
