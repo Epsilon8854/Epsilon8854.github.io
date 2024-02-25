@@ -88,17 +88,17 @@
     <script>
         document.getElementById('author-row').style.maxWidth = document.getElementById("title-row").clientWidth + 'px';
     </script>
-<div class="container" id="main">
-    <div class="row justify-content-center"> <!-- Ensure row contents are centered -->
-        <div class="col-sm-8 text-center"> <!-- Adjusted column size for centering, removed offset -->
-            <ul class="list-unstyled d-inline-block"> <!-- Make the UL inline-block so it can be centered -->
-                <li class="d-inline-block"> <!-- Use display inline-block for horizontal list -->
+    <div class="container" id="main">
+    <div class="row vertical-center" style="display: flex; align-items: center; height: 100vh;">
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
+            <ul class="list-unstyled" style="display: inline-block; text-align: left;">
+                <li style="display: inline-block; margin-right: 20px;">
                     <a href="https://github.com/AiSDF/AiSDF.github.io/raw/main/AiSDF_paper.pdf">
                         <img src="./img/paper_image.jpg" height="60px">
                         <h4><strong>Paper</strong></h4>
                     </a>
                 </li>              
-                <li class="d-inline-block"> <!-- Adjusted for inline display -->
+                <li style="display: inline-block;">
                     <a href="https://github.com/AiSDF/AiSDF" target="_blank">
                         <img src="img/github.png" height="60px">
                         <h4><strong>Code (coming soon)</strong></h4>
@@ -107,7 +107,8 @@
             </ul>
         </div>
     </div>
-</div>
+    </div>
+
 
 
 	<div class="row">
