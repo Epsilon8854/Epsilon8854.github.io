@@ -42,49 +42,41 @@
 
 <body>
     <div class="container" id="header" style="text-align: center; margin: auto;">
-        <div class="row" id="title-row" style="max-width: 100%; margin: 0 auto; display: inline-block">
-            <h2 class="col-md-12 text-center" id="title">
-                <b>AiSDF</b>: Structure-aware Neural Signed Distance Fields in Indoor Scenes<br>
-                 <small>
-                    IEEE Robotics and Automation Letters (RA-L)
-                </small>
-            </h2>
-        </div>
-        
-        <div class="row mt-3">
-            <div class="col text-center">
-            <div class="col-md-2"></div>
-                <a href="https://github.com/Syniez">
-                    Jaehoon Jang
-                </a><sup>1, *</sup>
-            <!-- </div> -->
-            <!-- <div > -->
-                <div class="col-md-2"></div>
-                <a href="https://threedv.github.io">
-                    Inha Lee
-                </a><sup>1, *</sup>
-            <!-- </div> -->
-            <!-- <div class="col text-center"> -->
-                <div class="col-md-2"></div>
-                <a href="https://github.com/Jeongin-park">
-                    Minje Kim
-                </a><sup>1</sup>
-            <!-- </div> -->
-            <!-- <div class="col text-center"> -->
-                <div class="col-md-2"></div>
-                <a href="https://github.com/kimkj38">
-                    Kyungdon Joo
-                </a><sup>1</sup>
-                <div class="col-md-2"></div>
+        <div class="row" id="title-row" style="margin: 0 auto;">
+            <div class="col-12 text-center">
+                <h2 id="title">
+                    <b>AiSDF</b>: Structure-aware Neural Signed Distance Fields in Indoor Scenes<br>
+                    <small>IEEE Robotics and Automation Letters (RA-L)</small>
+                </h2>
             </div>
         </div>
-        <div class="col text-center">
-            <span><sup>1</sup> Ulsan National Institute of Science & Technology &nbsp;&nbsp;</span>
+        
+        <div class="row text-center mt-3">
+            <!-- Adjust col-md-* to manage the spacing as needed, ensuring they sum to 12 -->
+            <div class="col-md-3">
+                <a href="https://github.com/Syniez">Jaehoon Jang</a><sup>1, *</sup>
+            </div>
+            <div class="col-md-3">
+                <a href="https://threedv.github.io">Inha Lee</a><sup>1, *</sup>
+            </div>
+            <div class="col-md-3">
+                <a href="https://github.com/Jeongin-park">Minje Kim</a><sup>1</sup>
+            </div>
+            <div class="col-md-3">
+                <a href="https://github.com/kimkj38">Kyungdon Joo</a><sup>1</sup>
+            </div>
         </div>
-        <div class="col text-center">
-            <span><sup>*</sup> Equal contribution (alphabet order) &nbsp;&nbsp;</span>
+        
+        <div class="row">
+            <div class="col-12 text-center">
+                <span><sup>1</sup> Ulsan National Institute of Science & Technology &nbsp;&nbsp;</span>
+            </div>
+            <div class="col-12 text-center">
+                <span><sup>*</sup> Equal contribution (alphabet order) &nbsp;&nbsp;</span>
+            </div>
         </div>
     </div>
+    
     <script>
         document.getElementById('author-row').style.maxWidth = document.getElementById("title-row").clientWidth + 'px';
     </script>
