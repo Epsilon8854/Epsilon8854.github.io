@@ -205,6 +205,7 @@ span.highlight {
 }
 
  ul {
+            text-align: center;
             list-style-type: none;
             margin: 0;
             padding: 0;
@@ -232,3 +233,4 @@ li a:hover {
             color: rgb(239 147 56);
      }
 
+    
