@@ -88,44 +88,27 @@
     <script>
         document.getElementById('author-row').style.maxWidth = document.getElementById("title-row").clientWidth + 'px';
     </script>
-    <div class="container" id="main">
-        <div class="row">
-                <div class="col-sm-6 col-sm-offset-1 text-center">
-		
-                    <ul class="list-unstyled">
-                        <li class="col-sm-2 ">
-                            <a href="https://github.com/AiSDF/AiSDF.github.io/raw/main/AiSDF_paper.pdf">
-                            <img src="./img/paper_image.jpg" height="60px">
-                                <h4><strong>Paper</strong></h4>
-                            </a>
-                        </li>
-                        <!-- <li class="col-sm-2">
-                            <a href="https://youtu.be/S071rGezdNM">
-                            <img src="./img/youtube_icon.png" height="60px">
-                                <h4><strong>Video</strong></h4>
-                            </a>
-                        </li> -->
-                        <!-- <li class="col-sm-2">
-                            <a href="https://drive.google.com/drive/folders/1jNpwAv1T1ntjIHUMJ1wABePA2Z8_nRRQ?usp=sharing" target="_blank">
-                            <image src="img/database_icon.png" height="60px">
-                                <h4><strong>NeRF Dataset</strong></h4>
-                            </a>
-                        </li>                           -->
-                        <li class="col-sm-2">
-                            <a href="https://github.com/AiSDF/AiSDF" target="_blank">
-                            <image src="img/github.png" height="60px">
-                                <h4><strong>Code(comming soon)</strong></h4>
-                            </a>
-                        </li>
-			<!-- <li class="col-sm-2">
-                            <a href="https://github.com/AiSDF/AiSDF.github.io/raw/main/AiSDF_supplementary.pdf" target="_blank">
-                            <image src="img/supplementary_icon.png" height="60px">
-                                <h4><strong>Supplementary Material</strong></h4>
-                            </a>
-                        </li>	 -->
-                    </ul>
-                </div>
+<div class="container" id="main">
+    <div class="row justify-content-center"> <!-- Ensure row contents are centered -->
+        <div class="col-sm-8 text-center"> <!-- Adjusted column size for centering, removed offset -->
+            <ul class="list-unstyled d-inline-block"> <!-- Make the UL inline-block so it can be centered -->
+                <li class="d-inline-block"> <!-- Use display inline-block for horizontal list -->
+                    <a href="https://github.com/AiSDF/AiSDF.github.io/raw/main/AiSDF_paper.pdf">
+                        <img src="./img/paper_image.jpg" height="60px">
+                        <h4><strong>Paper</strong></h4>
+                    </a>
+                </li>              
+                <li class="d-inline-block"> <!-- Adjusted for inline display -->
+                    <a href="https://github.com/AiSDF/AiSDF" target="_blank">
+                        <img src="img/github.png" height="60px">
+                        <h4><strong>Code (coming soon)</strong></h4>
+                    </a>
+                </li>
+            </ul>
         </div>
+    </div>
+</div>
+
 
 	<div class="row">
             <div class="col-md-8 col-md-offset-2">
