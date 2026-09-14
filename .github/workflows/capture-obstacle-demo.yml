@@ -1,0 +1,119 @@
+name: Capture original obstacle avoidance demo
+on:
+  push:
+    branches: [feat/academic-cv-page]
+    paths: [.github/workflows/capture-obstacle-demo.yml]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install capture tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+          python -m pip install -q Pillow 'yt-dlp[default]' curl_cffi playwright beautifulsoup4
+          python -m playwright install --with-deps chromium
+      - name: Capture only the publicly playable original video
+        run: |
+          python - <<'PY'
+          import io,json,subprocess,sys,tempfile,time
+          from pathlib import Path
+          from PIL import Image
+          from playwright.sync_api import sync_playwright
+          sys.path.insert(0,'tools')
+          from prepare_media import gif
+          out=Path('verification');out.mkdir(exist_ok=True)
+          result={'source':'https://www.youtube.com/watch?v=2bW5VAYirro','status':'unavailable','attempts':[]}
+          target=Path('assets/media/obstacle-avoidance.gif')
+          if target.exists():
+              result['status']='ok'
+          else:
+              try:
+                  with tempfile.TemporaryDirectory() as td:
+                      cmd=['yt-dlp','--impersonate','chrome','--no-playlist','--socket-timeout','15','--retries','0','--js-runtimes','node','-f','best[height<=480]/best','-o',str(Path(td)/'source.%(ext)s'),result['source']]
+                      subprocess.run(cmd,check=True,timeout=90)
+                      raw=next(p for p in Path(td).glob('source.*') if p.suffix not in {'.part','.ytdl'})
+                      length=float(json.loads(subprocess.check_output(['ffprobe','-v','error','-show_entries','format=duration','-of','json',str(raw)],timeout=20))['format']['duration'])
+                      start=max(0,(length-min(10,length))/2)
+                      gif(raw,target,start=start,duration=min(10,length),width=480)
+                      result.update(status='ok',method='original-video-download',clip_start_seconds=start,duration_seconds=min(10,length))
+              except Exception as exc:result['attempts'].append(str(exc)[:400])
+          if result['status']!='ok':
+              with sync_playwright() as p:
+                  browser=p.chromium.launch(headless=True,args=['--autoplay-policy=no-user-gesture-required'])
+                  context=browser.new_context(viewport={'width':1100,'height':800},locale='en-US',extra_http_headers={'Referer':'https://epsilon8854.github.io/'})
+                  for idx,url in enumerate(['https://www.youtube-nocookie.com/embed/2bW5VAYirro?autoplay=1&mute=1&controls=0&rel=0',result['source']]):
+                      page=context.new_page()
+                      try:
+                          page.goto(url,wait_until='domcontentloaded',timeout=30000)
+                          for label in ['Reject all','Accept all']:
+                              button=page.get_by_role('button',name=label,exact=True)
+                              if button.count() and button.first.is_visible():button.first.click();break
+                          page.wait_for_selector('video',timeout=15000)
+                          page.evaluate("""() => {const v=document.querySelector('video');v.muted=true;v.play().catch(()=>{});}""")
+                          page.wait_for_function("""() => {const v=document.querySelector('video');return v && v.readyState>=2 && v.videoWidth>0 && v.currentTime>0 && !document.querySelector('.ad-showing');}""",timeout=20000)
+                          duration=page.locator('video').evaluate('(v)=>v.duration')
+                          if not isinstance(duration,(int,float)) or duration<2:raise ValueError('No valid original video duration')
+                          start=max(0,min(5,(duration-8)/2))
+                          page.locator('video').evaluate('(v,t)=>{v.currentTime=t;v.muted=true;v.play();}',start)
+                          page.wait_for_timeout(1200)
+                          page.add_style_tag(content='.ytp-chrome-bottom,.ytp-chrome-top,.ytp-gradient-bottom,.ytp-gradient-top,.ytp-pause-overlay,.ytp-watermark{visibility:hidden!important}')
+                          frames=[];begin=time.monotonic();rate=8
+                          for n in range(int(min(8,duration-start-1)*rate)):
+                              time.sleep(max(0,begin+n/rate-time.monotonic()))
+                              frame=Image.open(io.BytesIO(page.locator('video').screenshot())).convert('RGB')
+                              frame.thumbnail((480,360));frames.append(frame)
+                          if len(frames)<2 or len({f.tobytes() for f in frames})<2:raise ValueError('No moving original footage captured')
+                          frames[0].save(target,save_all=True,append_images=frames[1:],duration=125,loop=0,optimize=True)
+                          frames[0].save('assets/images/obstacle-avoidance.jpg',quality=90)
+                          result.update(status='ok',method='public-browser-video-capture',clip_start_seconds=start,frames=len(frames),fps=rate)
+                          break
+                      except Exception as exc:
+                          result['attempts'].append({'url':url,'error':str(exc)[:400],'page_text':page.locator('body').inner_text()[:700]})
+                          page.screenshot(path=str(out/('youtube-attempt-'+str(idx)+'.png')))
+                      finally:page.close()
+                  browser.close()
+          (out/'obstacle-capture.json').write_text(json.dumps(result,indent=2)+'\n')
+          manifest=Path('assets/media/sources.json')
+          rows=json.loads(manifest.read_text())
+          if result['status']=='ok':
+              rows=[r for r in rows if r['file']!='assets/media/obstacle-avoidance.gif']
+              rows.append({'file':'assets/media/obstacle-avoidance.gif',**{k:v for k,v in result.items() if k!='attempts'}})
+              manifest.write_text(json.dumps(rows,indent=2)+'\n')
+          print(json.dumps(result,indent=2))
+          PY
+      - name: Rebuild and verify page
+        run: |
+          python tools/build_site.py
+          python tools/verify_site.py
+      - name: Commit original footage if obtained
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add assets index.html cv.html
+          if ! git diff --cached --quiet; then
+            git commit -m 'Add original obstacle avoidance demo and regenerate profile [skip ci]'
+            git pull --rebase origin '${{ github.ref_name }}'
+            git push origin 'HEAD:${{ github.ref_name }}'
+          fi
+      - name: Save capture diagnostics and verified site
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: obstacle-demo-verification
+          path: |
+            verification
+            assets
+            index.html
+            cv.html
+          retention-days: 7
