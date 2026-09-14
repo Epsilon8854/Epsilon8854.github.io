@@ -1,0 +1,77 @@
+[
+  {
+    "file": "assets/images/profile.jpg",
+    "source": "https://unist.info/wp-content/uploads/2026/07/%EC%9D%B4%EC%9D%B8%ED%95%981-1.png",
+    "status": "unavailable",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "file": "assets/images/unisim-slam.jpg",
+    "source": "https://unist.info/wp-content/uploads/2026/06/unisimslam_public-1-pdf.jpg",
+    "status": "unavailable",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "file": "assets/images/fedepth.jpg",
+    "source": "https://unist.info/wp-content/uploads/2026/06/Homepage_publication-pdf.jpg",
+    "status": "unavailable",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "file": "assets/images/cse-dataset.jpg",
+    "source": "https://unist.info/wp-content/uploads/2024/11/CSEDataset_News-pdf.jpg",
+    "status": "unavailable",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "file": "assets/images/aisdf.jpg",
+    "source": "https://unist.info/wp-content/uploads/2024/02/ral2024-AiSDF-teaser.png",
+    "status": "unavailable",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "file": "assets/images/frasier.jpg",
+    "source": "https://unist.info/wp-content/uploads/2023/12/ICASSP2024-pulbication.png",
+    "status": "unavailable",
+    "error": "HTTP Error 403: Forbidden"
+  },
+  {
+    "file": "assets/images/lane-detection.jpg",
+    "source": "https://i.imgur.com/Vvnq9gl.jpg",
+    "status": "ok",
+    "sha256": "e34248aa691fe8281f277dbfb7148ada96cd42c584a98c2795081d965a3a92a3"
+  },
+  {
+    "file": "assets/images/line-tracer.jpg",
+    "source": "https://i.imgur.com/5YUE6kI.jpg",
+    "status": "ok",
+    "sha256": "b0a65674e3e87cfc2190320b3fe8698690f70e824e020bfa25dd1e70c70fad36"
+  },
+  {
+    "file": "assets/images/obstacle-avoidance.jpg",
+    "source": "https://img.youtube.com/vi/2bW5VAYirro/hqdefault.jpg",
+    "status": "ok",
+    "sha256": "3cca88e9ea8f6bf544612536c71e327090344d66a2dd944a70da96421e6a903d"
+  },
+  {
+    "file": "assets/media/lane-detection.gif",
+    "source": "https://i.imgur.com/2yoQeIb.gif",
+    "status": "ok",
+    "duration_seconds": 8,
+    "fps": 12
+  },
+  {
+    "file": "assets/media/hand-rhythm.gif",
+    "source": "https://raw.githubusercontent.com/Epsilon8854/HandPlaying_RhythmGame/main/image/HandPlayingGameExample.gif",
+    "status": "ok",
+    "duration_seconds": 8,
+    "fps": 12
+  },
+  {
+    "file": "assets/media/obstacle-avoidance.gif",
+    "source": "https://www.youtube.com/watch?v=2bW5VAYirro",
+    "status": "unavailable",
+    "error": "Command '['yt-dlp', '--no-playlist', '--socket-timeout', '20', '--retries', '1', '--fragment-retries', '1', '--js-runtimes', 'node', '-f', 'best[height<=480]/best', '-o', '/tmp/tmp4bfdp7u6/obstacle.%(ext)s', 'https://www.youtube.com/watch?v=2bW5VAYirro']' returned non-zero exit status 1.",
+    "note": "Keep the linked original video poster. No simulated footage is substituted."
+  }
+]
