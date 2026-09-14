@@ -1,0 +1,90 @@
+name: Deploy academic website to Pages
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Read existing Pages configuration
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api 'repos/${{ github.repository }}/pages' --jq '{html_url,build_type,source,status}'
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+      - name: Build static profile and preserve existing project pages
+        run: |
+          python tools/build_site.py
+          mkdir -p _site
+          cp index.html cv.html robots.txt sitemap.xml .nojekyll _site/
+          cp -RL assets _site/assets
+          cp -RL AiSDF _site/AiSDF
+          test -s _site/index.html
+          test -s _site/assets/images/profile.jpg
+          test -d _site/AiSDF
+      - name: Upload complete static website
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - name: Deploy GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+      - name: Verify deployed public pages and media
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          python - <<'PY'
+          import hashlib,json,os,time,urllib.request
+          from pathlib import Path
+          base=os.environ['PAGE_URL'].rstrip('/')+'/'
+          checks={};errors=[]
+          targets={'':'Other Projects','cv.html':'Curriculum Vitae','AiSDF/':'AiSDF'}
+          for path,needle in targets.items():
+              url=base+path+'?deployment='+os.environ['GITHUB_SHA']
+              last=''
+              for attempt in range(8):
+                  try:
+                      req=urllib.request.Request(url,headers={'User-Agent':'GitHub-Pages-deployment-verification'})
+                      with urllib.request.urlopen(req,timeout=20) as response:
+                          data=response.read();status=response.status
+                      if needle not in data.decode('utf-8'):raise ValueError('Expected page content not found')
+                      checks[path or '/']={'status':status,'expected_content':True}
+                      break
+                  except Exception as exc:
+                      last=str(exc);time.sleep(5)
+              else: errors.append({'path':path,'error':last})
+          for path in Path('assets/images').glob('*.jpg'):
+              try:
+                  with urllib.request.urlopen(base+str(path),timeout=20) as response:data=response.read()
+                  correct=hashlib.sha256(data).digest()==hashlib.sha256(path.read_bytes()).digest()
+                  checks[str(path)]={'hash_match':correct}
+                  if not correct:errors.append({'path':str(path),'error':'Media hash mismatch'})
+              except Exception as exc:errors.append({'path':str(path),'error':str(exc)})
+          report={'page_url':base,'commit':os.environ['GITHUB_SHA'],'checks':checks,'errors':errors}
+          Path('deployment-report.json').write_text(json.dumps(report,indent=2)+'\n')
+          print(json.dumps(report,indent=2))
+          assert not errors,'Public deployment verification failed'
+          PY
+      - name: Save deployment verification
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: public-deployment-report
+          path: deployment-report.json
+          retention-days: 7
