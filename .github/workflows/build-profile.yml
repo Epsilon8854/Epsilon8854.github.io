@@ -1,0 +1,61 @@
+name: Build and verify academic profile
+on:
+  push:
+    branches: [feat/academic-cv-page]
+    paths: ['data/**', 'assets/site.*', 'tools/build_site.py', 'tools/recover_media.py', 'tools/verify_site.py', '.github/workflows/build-profile.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: build-profile-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python -m pip install Pillow 'yt-dlp[default]' curl_cffi playwright beautifulsoup4
+          python -m playwright install --with-deps chromium
+      - name: Recover public research and project media
+        run: python tools/recover_media.py
+      - name: Generate static pages
+        run: |
+          python tools/build_site.py
+          node --check assets/site.js
+      - name: Browser and content checks
+        run: python tools/verify_site.py
+      - name: Commit generated site and media
+        if: always()
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html cv.html .nojekyll robots.txt sitemap.xml assets
+          if ! git diff --cached --quiet; then
+            git commit -m 'Build academic homepage and verify source media [skip ci]'
+            git pull --rebase origin '${{ github.ref_name }}'
+            git push origin 'HEAD:${{ github.ref_name }}'
+          fi
+      - name: Bundle site and verification previews
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: academic-profile-preview
+          path: |
+            index.html
+            cv.html
+            assets
+            data
+            tools/build_site.py
+            tools/verify_site.py
+            verification
+          retention-days: 7
