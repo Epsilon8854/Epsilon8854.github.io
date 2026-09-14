@@ -2,38 +2,44 @@
   {
     "file": "assets/images/profile.jpg",
     "source": "https://unist.info/wp-content/uploads/2026/07/%EC%9D%B4%EC%9D%B8%ED%95%981-1.png",
-    "status": "unavailable",
-    "error": "HTTP Error 403: Forbidden"
+    "retrieved_from": "https://unist.info/wp-content/uploads/2026/07/%EC%9D%B4%EC%9D%B8%ED%95%981-1.png",
+    "status": "ok",
+    "sha256": "98e966a8bb7e640facb2af648d4c8ad6e51dd95b56c281dc6494137f3e6c324e"
   },
   {
     "file": "assets/images/unisim-slam.jpg",
     "source": "https://unist.info/wp-content/uploads/2026/06/unisimslam_public-1-pdf.jpg",
-    "status": "unavailable",
-    "error": "HTTP Error 403: Forbidden"
+    "retrieved_from": "https://unist.info/wp-content/uploads/2026/06/unisimslam_public-1-pdf.jpg",
+    "status": "ok",
+    "sha256": "64f64bb5ee9501f59c5b0f5907b97d4d675eae2f112b14789b36c1397b472eb8"
   },
   {
     "file": "assets/images/fedepth.jpg",
     "source": "https://unist.info/wp-content/uploads/2026/06/Homepage_publication-pdf.jpg",
-    "status": "unavailable",
-    "error": "HTTP Error 403: Forbidden"
+    "retrieved_from": "https://unist.info/wp-content/uploads/2026/06/Homepage_publication-pdf.jpg",
+    "status": "ok",
+    "sha256": "a7d7e4bf7e16ec68750ddfbaa70510719993d7a86e31e4418dc5f35b4bba91b9"
   },
   {
     "file": "assets/images/cse-dataset.jpg",
     "source": "https://unist.info/wp-content/uploads/2024/11/CSEDataset_News-pdf.jpg",
-    "status": "unavailable",
-    "error": "HTTP Error 403: Forbidden"
+    "retrieved_from": "https://unist.info/wp-content/uploads/2024/11/CSEDataset_News-pdf.jpg",
+    "status": "ok",
+    "sha256": "8f3cdfd231ceb36fcb4cbee9f226ba7a4c4de57889bebfd27eee4046f77238b3"
   },
   {
     "file": "assets/images/aisdf.jpg",
     "source": "https://unist.info/wp-content/uploads/2024/02/ral2024-AiSDF-teaser.png",
-    "status": "unavailable",
-    "error": "HTTP Error 403: Forbidden"
+    "retrieved_from": "https://unist.info/wp-content/uploads/2024/02/ral2024-AiSDF-teaser.png",
+    "status": "ok",
+    "sha256": "bd4bddc3f3fbc66c78811aa4bc75ee1a5b182ed8fdfa16659178b106aec9878f"
   },
   {
     "file": "assets/images/frasier.jpg",
     "source": "https://unist.info/wp-content/uploads/2023/12/ICASSP2024-pulbication.png",
-    "status": "unavailable",
-    "error": "HTTP Error 403: Forbidden"
+    "retrieved_from": "https://unist.info/wp-content/uploads/2023/12/ICASSP2024-pulbication.png",
+    "status": "ok",
+    "sha256": "7a39567c6ed7615131fe99b723d8b9520b7cbff9546bfc5c700cb66d44c8c72f"
   },
   {
     "file": "assets/images/lane-detection.jpg",
@@ -71,7 +77,11 @@
     "file": "assets/media/obstacle-avoidance.gif",
     "source": "https://www.youtube.com/watch?v=2bW5VAYirro",
     "status": "unavailable",
-    "error": "Command '['yt-dlp', '--no-playlist', '--socket-timeout', '20', '--retries', '1', '--fragment-retries', '1', '--js-runtimes', 'node', '-f', 'best[height<=480]/best', '-o', '/tmp/tmp4bfdp7u6/obstacle.%(ext)s', 'https://www.youtube.com/watch?v=2bW5VAYirro']' returned non-zero exit status 1.",
-    "note": "Keep the linked original video poster. No simulated footage is substituted."
+    "attempts": [
+      "Command '['yt-dlp', '--no-playlist', '--socket-timeout', '15', '--retries', '0', '--fragment-retries', '0', '--js-runtimes', 'node', '--extractor-args', 'youtube:player_client=android_vr', '-f', 'best[height<=480]/best', '-o', '/tmp/tmpn3h0xzmr/origi",
+      "Command '['yt-dlp', '--no-playlist', '--socket-timeout', '15', '--retries', '0', '--fragment-retries', '0', '--js-runtimes', 'node', '--extractor-args', 'youtube:player_client=web_safari', '-f', 'best[height<=480]/best', '-o', '/tmp/tmp8njo26n_/origi",
+      "HTTP Error 404: "
+    ],
+    "note": "Original video remains linked. An original MP4 can be converted locally using tools/prepare_media.py."
   }
 ]
