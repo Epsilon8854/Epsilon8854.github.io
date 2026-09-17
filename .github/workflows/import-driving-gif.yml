@@ -1,0 +1,156 @@
+name: Import supplied driving animation
+on:
+  push:
+    branches: [feat/academic-cv-page]
+    paths: ['.github/workflows/import-driving-gif.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: build-profile-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  import-and-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install media and browser tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python -m pip install Pillow playwright beautifulsoup4
+          python -m playwright install --with-deps chromium
+      - name: Assemble verified source and generate actual animated GIF
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python - <<'PY'
+          import base64, hashlib, json, os, subprocess, urllib.request
+          from pathlib import Path
+          from PIL import Image
+
+          source = Path('assets/media/obstacle-avoidance-source.webm')
+          expected = 'ca494328072d8353c8f833ff99890f9427b643beee56364f5f41711da1691a0e'
+          # An optimized AV1 transcode of the complete owner-supplied GIF.
+          # All motion comes from the uploaded recording, not generated footage.
+          parts = [
+              '346efe5947ca531bdd15e5b05118ec4147e57f94',
+              '21e16d9204041794146428c9433bcd857147eeaf',
+              '4c0c3089602a35afbd8461f6ffc22275b550e771',
+              'c1cd4810427b0f558bb330977e1f1a6a6b8d021a',
+              'f61f449943624b01042a88fdebfd054d14c3a9bf',
+              'cc92f7b783b3ab5dcee408a1751ed72f768c67f7',
+              '47102d822b27f194e68cc487ac8bfa46abb2021a',
+              'a5f16f591ad87e34832192e0974241669f9b54d6',
+              'dbf53073437f4eccda67bf835ca95667e4d80d94',
+              'b16166507f6cf7b452f443a682ae24494d09d7d7',
+          ]
+          if not source.exists():
+              chunks = []
+              for sha in parts:
+                  url = f'https://api.github.com/repos/{os.environ["GITHUB_REPOSITORY"]}/git/blobs/{sha}'
+                  request = urllib.request.Request(url, headers={
+                      'Authorization': 'Bearer ' + os.environ['GH_TOKEN'],
+                      'Accept': 'application/vnd.github+json',
+                      'User-Agent': 'academic-profile-media-import',
+                  })
+                  with urllib.request.urlopen(request, timeout=30) as response:
+                      blob = json.load(response)
+                  chunk = base64.b64decode(blob['content'])
+                  actual = hashlib.sha1(f'blob {len(chunk)}\0'.encode() + chunk).hexdigest()
+                  assert actual == sha, 'Transferred media part checksum mismatch'
+                  chunks.append(chunk)
+              data = b''.join(chunks)
+              assert hashlib.sha256(data).hexdigest() == expected, 'Source checksum mismatch'
+              source.write_bytes(data)
+          assert hashlib.sha256(source.read_bytes()).hexdigest() == expected
+
+          animation = Path('assets/media/obstacle-avoidance.gif')
+          poster = Path('assets/images/obstacle-avoidance-animation.jpg')
+          subprocess.run([
+              'ffmpeg', '-y', '-v', 'error', '-i', str(source),
+              '-filter_complex', '[0:v]split[a][b];[a]palettegen=max_colors=192[p];[b][p]paletteuse=dither=sierra2_4a',
+              '-loop', '0', str(animation),
+          ], check=True, timeout=120)
+          with Image.open(animation) as image:
+              frames = image.n_frames
+              assert frames > 1, 'The thumbnail must be an actual animation'
+              duration = 0
+              for frame in range(frames):
+                  image.seek(frame)
+                  duration += image.info.get('duration', 0)
+              image.seek(0)
+              image.convert('RGB').save(poster, quality=95)
+              size = list(image.size)
+          assert 8.3 <= duration / 1000 <= 8.7, 'Unexpected clip duration'
+
+          profile_path = Path('data/profile.json')
+          profile = json.loads(profile_path.read_text())
+          project = next(p for p in profile['projects'] if p['id'] == 'obstacle-avoidance')
+          project['image'] = str(poster)
+          project['animation'] = str(animation)
+          project.pop('image_source', None)
+          profile_path.write_text(json.dumps(profile, ensure_ascii=False, indent=2) + '\n')
+
+          manifest_path = Path('assets/media/sources.json')
+          records = {entry['file']: entry for entry in json.loads(manifest_path.read_text())}
+          records[str(animation)] = {
+              'file': str(animation),
+              'source': 'Owner-supplied GIF in ZIP, September 17, 2026',
+              'original_sha256': 'e906931c20b6b5e715f4ec2138e045b3ae001737f21b50e02d03f1de2fe67896',
+              'original_frames': 122,
+              'original_duration_seconds': 8.54,
+              'optimized_source': str(source),
+              'optimized_source_sha256': expected,
+              'status': 'ok',
+              'frames': frames,
+              'size': size,
+              'fps': 10,
+              'duration_seconds': duration / 1000,
+              'sha256': hashlib.sha256(animation.read_bytes()).hexdigest(),
+              'note': 'Resized and re-encoded real footage for a lightweight thumbnail. No synthetic frames or unrelated footage.',
+          }
+          records[str(poster)] = {
+              'file': str(poster), 'source': str(animation), 'status': 'ok',
+              'note': 'First frame used when animations are paused or reduced motion is enabled.',
+              'sha256': hashlib.sha256(poster.read_bytes()).hexdigest(),
+          }
+          manifest_path.write_text(json.dumps(list(records.values()), ensure_ascii=False, indent=2) + '\n')
+          print(json.dumps(records[str(animation)], indent=2))
+          PY
+      - name: Rebuild homepage and CV and verify desktop and mobile layouts
+        run: |
+          python tools/build_site.py
+          node --check assets/site.js
+          python tools/verify_site.py
+      - name: Commit only verified profile changes
+        env:
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/profile.json index.html cv.html assets/media/obstacle-avoidance-source.webm assets/media/obstacle-avoidance.gif assets/images/obstacle-avoidance-animation.jpg assets/media/sources.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Restore the supplied driving animation and verify portfolio updates [skip ci]'
+            git push origin "HEAD:$BRANCH"
+          fi
+      - name: Save checked website and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: confirmed-portfolio-preview
+          path: |
+            index.html
+            cv.html
+            assets
+            data
+            tools/build_site.py
+            tools/verify_site.py
+            verification
+          retention-days: 7

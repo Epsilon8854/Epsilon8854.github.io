@@ -68,13 +68,3 @@
   });
   updateGlobal();
 })();
-
-// Keep a usable project link when a remotely hosted legacy thumbnail is unavailable.
-(() => {
-  document.querySelectorAll('img[data-remote-media]').forEach(img => {
-    const placeholder = img.closest('figure')?.querySelector('[data-media-placeholder]');
-    const recover = () => { if (placeholder) { img.hidden = true; placeholder.hidden = false; } };
-    img.addEventListener('error', recover);
-    if (img.complete && img.naturalWidth === 0) recover();
-  });
-})();

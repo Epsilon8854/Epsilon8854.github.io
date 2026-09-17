@@ -2,11 +2,11 @@
 """Build the static homepage and printable CV. Existing AiSDF is never touched."""
 from __future__ import annotations
 import html
-import hashlib
 import json
 from pathlib import Path
+from research_sections import render_research_sections
 ROOT = Path(__file__).resolve().parents[1]
-P = json.loads((ROOT / 'data/profile.json').read_text(encoding='utf-8'))
+P = json.loads((ROOT / 'data/profile.json').read_text())
 def esc(value): return html.escape(str(value), quote=True)
 def link(url, text): return f'<a href="{esc(url)}">{esc(text)}</a>'
 def resources(items): return '<div class="resource-links">' + ''.join(link(u, t) for t, u in items.items()) + '</div>'
@@ -15,59 +15,39 @@ def contact(cv=False):
     entries = [('mailto:' + P['email'], 'Email'), ('cv.html', 'CV'), (P['scholar'], 'Scholar'), (P['github'], 'GitHub'), (P['linkedin'], 'LinkedIn')]
     if cv: entries = [('mailto:' + P['email'], P['email']), (P['site'], 'Website'), (P['scholar'], 'Scholar'), (P['github'], 'GitHub')]
     return '<nav class="contact-links" aria-label="Contact and profiles">' + ''.join(link(u,t) for u,t in entries) + '</nav>'
-def asset_url(path):
-    source = ROOT / path
-    version = hashlib.sha256(source.read_bytes()).hexdigest()[:10]
-    return f'{path}?v={version}'
-def technologies(item):
-    value = item.get('technologies', '')
-    return f'<p class="technologies">{esc(value)}</p>' if value else ''
-def project_metadata(item):
-    parts = [str(item['year'])] if item.get('year') else []
-    ordinals = {1: '1st', 2: '2nd', 3: '3rd', 4: '4th'}
-    year = item.get('undergraduate_year')
-    if year: parts.append(f"{ordinals.get(year, str(year) + 'th')}-year undergraduate")
-    else: parts.append('Undergraduate project')
-    if item.get('role'): parts.append(item['role'])
-    return '<p class="project-meta">' + esc(' · '.join(parts)) + '</p>'
-def ongoing(item):
-    details = item['period']
-    if item.get('kind') == 'Funded research project': details += ' · Funded research project (project period)'
-    funding = f'<p class="funding"><em>{esc(item["funding"])}</em></p>' if item.get('funding') else ''
-    return (f'<article class="cv-item ongoing-item" id="{esc(item["id"])}">'
-            f'<h3>{esc(item["title"])}</h3><p class="project-meta">{esc(details)}</p>'
-            f'{funding}<p class="description">{esc(item["description"])}</p></article>')
 def head(title, path=''):
     description = 'Inha Lee — SLAM, geometric foundation models, neural 3D reconstruction, and collaborative robot perception. UNIST 3D Vision & Robotics Lab.'
+    research_styles = '<link rel="stylesheet" href="assets/research.css">' if path == 'cv.html' else ''
     return f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title><meta name="description" content="{esc(description)}"><meta name="author" content="Inha Lee">
 <link rel="canonical" href="{esc(P['site']+path)}"><meta property="og:type" content="website"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(description)}"><meta property="og:url" content="{esc(P['site']+path)}"><meta property="og:image" content="{esc(P['site'])}assets/images/profile.jpg"><meta name="twitter:card" content="summary">
-<meta name="color-scheme" content="light"><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="{esc(asset_url('assets/site.css'))}"><script src="{esc(asset_url('assets/site.js'))}" defer></script>
+<meta name="color-scheme" content="light"><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="assets/site.css"><link rel="stylesheet" href="assets/project-metadata.css">{research_styles}<script src="assets/site.js" defer></script>
 </head>'''
 def thumb(item):
     target = item.get('repo') or next(iter(item['links'].values()))
-    image = item['image']
-    if not (ROOT / image).is_file() and item.get('image_source'): image = item['image_source']
-    remote = image.startswith(('https://', 'http://'))
-    fallback = f' data-fallback="{esc(item["image_source"])}"' if item.get('image_source') and image != item['image_source'] else ''
+    fallback = f' data-fallback="{esc(item["image_source"])}"' if item.get('image_source') else ''
     animation = f' data-animation="{esc(item["animation"])}"' if item.get('animation') and (ROOT / item['animation']).is_file() else ''
     button = f'<button class="text-button animation-button" data-toggle-clip aria-label="Play or pause {esc(item["title"])} demo" aria-pressed="false" hidden>Play demo</button>' if animation else ''
-    remote_attr = ' data-remote-media' if remote else ''
-    placeholder = '<span class="media-unavailable" data-media-placeholder hidden>View original project media</span>' if remote else ''
-    return (f'<figure class="thumb"><a href="{esc(target)}" aria-label="{esc(item["title"])}">'
-            f'<img class="thumb-image" src="{esc(image)}" alt="{esc(item["alt"])}" width="410" height="290" loading="lazy" decoding="async"'
-            f'{fallback}{animation}{remote_attr}>{placeholder}</a>{button}</figure>')
+    return f'<figure class="thumb"><a href="{esc(target)}" aria-label="{esc(item["title"])}"><img class="thumb-image" src="{esc(item["image"])}" alt="{esc(item["alt"])}" width="410" height="290" loading="lazy" decoding="async"{fallback}{animation}></a>{button}</figure>'
+def technologies(item):
+    value = item.get('technologies')
+    return f'<p class="technologies"><span>Technologies:</span> {esc(value)}</p>' if value else ''
+def project_metadata(item):
+    parts = [str(item['year'])] if item.get('year') else []
+    if item.get('academic_stage'): parts.append(item['academic_stage'])
+    if item.get('role'): parts.append(item['role'])
+    return '<p class="note project-meta">' + esc(' · '.join(parts)) + '</p>' if parts else ''
 def publication(item, cv=False):
     target = next(iter(item['links'].values()))
     note = f'<p class="note">{esc(item["note"])}</p>' if item.get('note') else ''
     role = f'<span class="role">{esc(item["role"])}</span>' if item.get('role') and item['role'] != 'Co-author' else ''
     content = f'''<h3>{link(target,item['title'])}</h3><p class="authors">{authors(item['authors'])}</p><p class="venue"><strong>{esc(item['venue'])}, {item['year']}</strong>{role}</p>{note}{resources(item['links'])}<p class="description">{esc(item['description'])}</p>{technologies(item)}'''
-    if cv: return f'<article class="cv-item">{content}</article>'
+    if cv: return f'<article class="cv-item" id="{esc(item["id"])}">{content}</article>'
     return f'<article class="entry publication" id="{esc(item["id"])}">{thumb(item)}<div>{content}</div></article>'
 def project(item, cv=False):
     content = f'<h3>{link(item["repo"],item["title"])}</h3>{project_metadata(item)}<p class="description">{esc(item["description"])}</p>{technologies(item)}{resources(item["links"])}'
-    if cv: return f'<article class="cv-item">{content}</article>'
+    if cv: return f'<article class="cv-item" id="{esc(item["id"])}">{content}</article>'
     return f'<article class="entry project" id="{esc(item["id"])}">{thumb(item)}<div>{content}</div></article>'
 bio = '''<p>Hi! I am an integrated M.S.–Ph.D. student in the <a href="https://unist.info/">3D Vision &amp; Robotics Lab</a> at <a href="https://www.unist.ac.kr/">UNIST</a>, advised by <a href="https://unist.info/">Kyungdon Joo</a>.</p>
 <p>I am interested in <strong>SLAM, 3D reconstruction, and collaborative robot perception</strong>. My research connects geometric foundation models with consistent online mapping, neural scene representations, and learning across heterogeneous robots.</p>
@@ -78,15 +58,14 @@ page = head('Inha Lee | Robotics & 3D Vision') + f'''<body><a class="skip-link" 
 <a class="portrait-link" href="assets/images/profile.jpg" aria-label="View Inha Lee’s profile photo"><img class="portrait" src="assets/images/profile.jpg" data-fallback="https://unist.info/wp-content/uploads/2026/07/%EC%9D%B4%EC%9D%B8%ED%95%981-1.png" alt="Inha Lee" width="228" height="244" fetchpriority="high"></a></header>
 <nav class="section-nav" aria-label="Page sections"><a href="#research">Research</a><a href="#other-projects">Other Projects</a><a href="cv.html">Curriculum Vitae</a></nav>
 <section id="research" aria-labelledby="research-heading"><h2 id="research-heading">Research</h2><p class="section-intro">Selected publications. An asterisk (*) denotes equal contribution.</p>{''.join(publication(p) for p in P['publications'])}</section>
-<section id="other-projects" aria-labelledby="projects-heading"><div class="section-head"><h2 id="projects-heading">Other Projects <span class="section-subtitle">(Undergraduate)</span></h2><button class="text-button" data-toggle-animations aria-pressed="true" hidden>Pause animations</button></div><p class="section-intro">Undergraduate projects in perception, autonomous driving, and embedded robotics (2018–2020).</p>{''.join(project(p) for p in P['projects'])}</section>{footer}</main></body></html>'''
+<section id="other-projects" aria-labelledby="projects-heading"><div class="section-head"><h2 id="projects-heading">Other Projects <span class="subheading">(Undergraduate)</span></h2><button class="text-button" data-toggle-animations aria-pressed="true" hidden>Pause animations</button></div><p class="section-intro">Undergraduate projects in perception, autonomous driving, and embedded robotics (2018–2020).</p>{''.join(project(p) for p in P['projects'])}</section>{footer}</main></body></html>'''
 (ROOT / 'index.html').write_text(page, encoding='utf-8')
 cv = head('Inha Lee | Curriculum Vitae', 'cv.html') + f'''<body><main class="cv-page"><div class="cv-toolbar"><a href="index.html">← Back to homepage</a><button class="print-button" data-print>Print / Save as PDF</button></div>
 <header class="cv-header"><h1>Inha Lee <span lang="ko" style="font-size:17px;letter-spacing:0">이인하</span></h1><p>{esc(P['degree'])} · UNIST</p><p>SLAM · Geometric foundation models · Neural 3D reconstruction · Collaborative perception</p>{contact(True)}</header>
 <section class="cv-section"><h2>Education &amp; Research Affiliation</h2><article class="cv-item"><h3>Ulsan National Institute of Science and Technology (UNIST)</h3><p>Integrated M.S.–Ph.D. program · 3D Vision &amp; Robotics Lab</p><p>Advisor: Kyungdon Joo</p></article></section>
-<section class="cv-section" id="research-interests"><h2>Research Interests</h2><p class="interests">{esc(' · '.join(P.get('research_interests', [])))}</p></section>
-<section class="cv-section" id="ongoing-research"><h2>Ongoing Research &amp; Projects</h2>{''.join(ongoing(item) for item in P.get('ongoing_work', []))}</section>
+{render_research_sections()}
 <section class="cv-section"><h2>Selected Research &amp; Publications</h2><p class="cv-small">* Equal contribution. Author order follows the original publications.</p>{''.join(publication(p,True) for p in P['publications'])}</section>
-<section class="cv-section"><h2>Engineering Projects (Undergraduate)</h2>{''.join(project(p,True) for p in P['projects'])}</section>
+<section class="cv-section"><h2>Undergraduate Engineering Projects</h2>{''.join(project(p,True) for p in P['projects'])}</section>
 <footer class="footer"><p>Full publication record: <a href="{esc(P['scholar'])}">Google Scholar</a></p><p><a href="index.html">epsilon8854.github.io</a></p></footer></main></body></html>'''
 (ROOT / 'cv.html').write_text(cv, encoding='utf-8')
 (ROOT / '.nojekyll').write_text('')

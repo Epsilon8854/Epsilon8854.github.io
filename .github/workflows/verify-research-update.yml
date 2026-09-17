@@ -1,0 +1,69 @@
+name: Verify research and portfolio update
+on:
+  push:
+    branches: [feat/apply-cv-projects-20260917]
+    paths: ['data/research.json', 'tools/research_sections.py', 'tools/build_site.py', 'assets/research.css', '.github/workflows/verify-research-update.yml']
+permissions:
+  contents: write
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install browser test tools
+        run: |
+          python -m pip install Pillow playwright beautifulsoup4
+          python -m playwright install --with-deps chromium
+      - name: Build and check all requested content
+        run: |
+          python tools/build_site.py
+          node --check assets/site.js
+          python tools/verify_site.py
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from bs4 import BeautifulSoup
+          data=json.loads(Path('data/research.json').read_text())
+          cv=BeautifulSoup(Path('cv.html').read_text(),'html.parser')
+          assert ' · '.join(data['research_interests']) in cv.select_one('#research-interests').get_text()
+          assert len(cv.select('.ongoing-item')) == 3
+          for item in data['ongoing_work']:
+              node=cv.select_one('#'+item['id'])
+              assert item['title'] in node.get_text()
+              assert item['period'] in node.get_text()
+              assert item['description'] in node.get_text()
+          assert 'RS-2022-II220907' in cv.select_one('#ai-bots').get_text()
+          assert '(project period)' in cv.select_one('#ai-bots').get_text()
+          report=json.loads(Path('verification/report.json').read_text())
+          report['checks']['research_interests']='passed'
+          report['checks']['ongoing_research_and_projects']=3
+          Path('verification/report.json').write_text(json.dumps(report,indent=2)+'\n')
+          print('Research interests and all three ongoing entries verified.')
+          PY
+      - name: Commit verified generated CV
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add cv.html index.html
+          if ! git diff --cached --quiet; then
+            git commit -m 'Render research interests and ongoing work in CV'
+            git push origin 'HEAD:${{ github.ref_name }}'
+          fi
+      - name: Save verification and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: final-cv-and-portfolio-verification
+          path: |
+            verification
+            index.html
+            cv.html
+            assets
+            data
+          retention-days: 7
