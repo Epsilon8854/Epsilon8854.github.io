@@ -78,8 +78,8 @@
     "source": "https://www.youtube.com/watch?v=2bW5VAYirro",
     "status": "unavailable",
     "attempts": [
-      "Command '['yt-dlp', '--no-playlist', '--socket-timeout', '15', '--retries', '0', '--fragment-retries', '0', '--js-runtimes', 'node', '--extractor-args', 'youtube:player_client=android_vr', '-f', 'best[height<=480]/best', '-o', '/tmp/tmpn3h0xzmr/origi",
-      "Command '['yt-dlp', '--no-playlist', '--socket-timeout', '15', '--retries', '0', '--fragment-retries', '0', '--js-runtimes', 'node', '--extractor-args', 'youtube:player_client=web_safari', '-f', 'best[height<=480]/best', '-o', '/tmp/tmp8njo26n_/origi",
+      "Command '['yt-dlp', '--no-playlist', '--socket-timeout', '15', '--retries', '0', '--fragment-retries', '0', '--js-runtimes', 'node', '--extractor-args', 'youtube:player_client=android_vr', '-f', 'best[height<=480]/best', '-o', '/tmp/tmpat55u1uc/origi",
+      "Command '['yt-dlp', '--no-playlist', '--socket-timeout', '15', '--retries', '0', '--fragment-retries', '0', '--js-runtimes', 'node', '--extractor-args', 'youtube:player_client=web_safari', '-f', 'best[height<=480]/best', '-o', '/tmp/tmp_ogw_ur5/origi",
       "HTTP Error 404: "
     ],
     "note": "Original video remains linked. An original MP4 can be converted locally using tools/prepare_media.py."

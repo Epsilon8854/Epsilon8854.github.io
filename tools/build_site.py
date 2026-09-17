@@ -42,7 +42,7 @@ def project(item, cv=False):
 bio = '''<p>Hi! I am an integrated M.S.–Ph.D. student in the <a href="https://unist.info/">3D Vision &amp; Robotics Lab</a> at <a href="https://www.unist.ac.kr/">UNIST</a>, advised by <a href="https://unist.info/">Kyungdon Joo</a>.</p>
 <p>I am interested in <strong>SLAM, 3D reconstruction, and collaborative robot perception</strong>. My research connects geometric foundation models with consistent online mapping, neural scene representations, and learning across heterogeneous robots.</p>
 <p>I also enjoy building robotic systems—from autonomous driving and embedded control to interactive computer vision.</p>'''
-footer = '''<footer class="footer"><p>Inha Lee · UNIST</p><p>Layout inspired by <a href="https://marwan99.github.io/">Marwan Taher</a> and <a href="https://jonbarron.info/">Jon Barron</a>.<br>Research thumbnails: <a href="https://unist.info/?page_id=1064">3D Vision &amp; Robotics Lab</a>.</p></footer>'''
+footer = '''<footer class="footer"><p>Inha Lee · UNIST</p><p>Layout inspired by <a href="https://marwan99.github.io/">Marwan Taher</a> and <a href="https://jonbarron.info/">Jon Barron</a>.</p></footer>'''
 page = head('Inha Lee | Robotics & 3D Vision') + f'''<body><a class="skip-link" href="#research">Skip to research</a><main class="site">
 <header class="intro" id="about"><div class="intro-copy"><h1>Inha Lee <span class="native-name" lang="ko">이인하</span></h1>{bio}{contact()}</div>
 <a class="portrait-link" href="assets/images/profile.jpg" aria-label="View Inha Lee’s profile photo"><img class="portrait" src="assets/images/profile.jpg" data-fallback="https://unist.info/wp-content/uploads/2026/07/%EC%9D%B4%EC%9D%B8%ED%95%981-1.png" alt="Inha Lee" width="228" height="244" fetchpriority="high"></a></header>
