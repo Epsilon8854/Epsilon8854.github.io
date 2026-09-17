@@ -13,7 +13,12 @@
     {
       "id": "unisim-slam",
       "title": "UniSim-SLAM: Feed-Forward SLAM with Unified Sim(3) Optimization",
-      "authors": ["Inha Lee", "Dongjae Jeong", "Junhee Lee", "Kyungdon Joo"],
+      "authors": [
+        "Inha Lee",
+        "Dongjae Jeong",
+        "Junhee Lee",
+        "Kyungdon Joo"
+      ],
       "venue": "European Conference on Computer Vision (ECCV)",
       "year": 2026,
       "role": "First author",
@@ -21,12 +26,23 @@
       "image_source": "https://unist.info/wp-content/uploads/2026/06/unisimslam_public-1-pdf.jpg",
       "alt": "Overview of UniSim-SLAM with two-view tracking and multi-view Sim(3) optimization",
       "description": "Combines fast two-view tracking with multi-view refinement through a unified Sim(3) factor graph for geometrically consistent feed-forward SLAM.",
-      "links": {"project page": "https://vision3d-lab.github.io/unisim-slam/", "paper": "https://arxiv.org/abs/2608.01706"}
+      "technologies": "Python",
+      "links": {
+        "project page": "https://vision3d-lab.github.io/unisim-slam/",
+        "paper": "https://arxiv.org/abs/2608.01706"
+      }
     },
     {
       "id": "fedepth",
       "title": "FeDepth: Federated Learning for Depth Estimation under Robot Heterogeneity",
-      "authors": ["Ganghyeon Lee*", "Inha Lee*", "Junhee Lee", "Jeongeon Lee", "Sung Whan Yoon", "Kyungdon Joo"],
+      "authors": [
+        "Ganghyeon Lee*",
+        "Inha Lee*",
+        "Junhee Lee",
+        "Jeongeon Lee",
+        "Sung Whan Yoon",
+        "Kyungdon Joo"
+      ],
       "venue": "European Conference on Computer Vision (ECCV)",
       "year": 2026,
       "role": "Co-first author",
@@ -34,12 +50,22 @@
       "image_source": "https://unist.info/wp-content/uploads/2026/06/Homepage_publication-pdf.jpg",
       "alt": "FeDepth federated depth estimation across heterogeneous robot clients",
       "description": "Uses descriptor-based soft clustering to learn depth estimation across heterogeneous robots, environments, and sensing conditions without transferring raw data.",
-      "links": {"project page": "https://vision3d-lab.github.io/fedepth/", "paper": "https://arxiv.org/abs/2608.01129"}
+      "technologies": "Python",
+      "links": {
+        "project page": "https://vision3d-lab.github.io/fedepth/",
+        "paper": "https://arxiv.org/abs/2608.01129"
+      }
     },
     {
       "id": "cse-dataset",
       "title": "A Benchmark Dataset for Collaborative SLAM in Service Environments",
-      "authors": ["Harin Park", "Inha Lee", "Minje Kim", "Hyungyu Park", "Kyungdon Joo"],
+      "authors": [
+        "Harin Park",
+        "Inha Lee",
+        "Minje Kim",
+        "Hyungyu Park",
+        "Kyungdon Joo"
+      ],
       "venue": "IEEE Robotics and Automation Letters (RA-L)",
       "year": 2024,
       "note": "Presented at ICRA 2025",
@@ -48,12 +74,22 @@
       "image_source": "https://unist.info/wp-content/uploads/2024/11/CSEDataset_News-pdf.jpg",
       "alt": "CSE Dataset service environments and collaborative robot trajectories",
       "description": "A synchronized multi-robot benchmark built in NVIDIA Isaac Sim, with three robots in hospital, office, and warehouse environments and paired static/dynamic sequences.",
-      "links": {"dataset & code": "https://github.com/vision3d-lab/CSE_Dataset", "paper": "https://ieeexplore.ieee.org/document/10742554", "video": "https://youtu.be/zGVHL1qYJsU"}
+      "technologies": "Python · ROS · NVIDIA Isaac Sim",
+      "links": {
+        "dataset & code": "https://github.com/vision3d-lab/CSE_Dataset",
+        "paper": "https://ieeexplore.ieee.org/document/10742554",
+        "video": "https://youtu.be/zGVHL1qYJsU"
+      }
     },
     {
       "id": "aisdf",
       "title": "AiSDF: Structure-aware Neural Signed Distance Fields in Indoor Scenes",
-      "authors": ["Jaehoon Jang*", "Inha Lee*", "Minje Kim", "Kyungdon Joo"],
+      "authors": [
+        "Jaehoon Jang*",
+        "Inha Lee*",
+        "Minje Kim",
+        "Kyungdon Joo"
+      ],
       "venue": "IEEE Robotics and Automation Letters (RA-L)",
       "year": 2024,
       "note": "Presented at ICRA 2025",
@@ -62,12 +98,20 @@
       "image_source": "https://unist.info/wp-content/uploads/2024/02/ral2024-AiSDF-teaser.png",
       "alt": "AiSDF neural indoor reconstruction and Atlanta-world planar structure",
       "description": "Reconstructs indoor scenes online by combining neural signed distance fields with Atlanta-world structural priors and explicit planar surfels.",
-      "links": {"project page": "https://vision3d-lab.github.io/AiSDF/", "paper": "https://ieeexplore.ieee.org/document/10463130"}
+      "technologies": "Python",
+      "links": {
+        "project page": "https://vision3d-lab.github.io/AiSDF/",
+        "paper": "https://ieeexplore.ieee.org/document/10463130"
+      }
     },
     {
       "id": "frasier",
       "title": "Fracture Assembly with Segmentation and Iterative Registration",
-      "authors": ["Jinhyeok Kim", "Inha Lee", "Kyungdon Joo"],
+      "authors": [
+        "Jinhyeok Kim",
+        "Inha Lee",
+        "Kyungdon Joo"
+      ],
       "venue": "IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)",
       "year": 2024,
       "role": "Co-author",
@@ -75,53 +119,124 @@
       "image_source": "https://unist.info/wp-content/uploads/2023/12/ICASSP2024-pulbication.png",
       "alt": "Fractured 3D shapes and their reassembly with segmentation and registration",
       "description": "Reassembles fractured 3D objects by segmenting broken surfaces and aligning fragments through iterative point-cloud registration.",
-      "links": {"project page": "https://frasier-assembly.github.io/", "paper": "https://ieeexplore.ieee.org/document/10447659"}
+      "technologies": "Python",
+      "links": {
+        "project page": "https://frasier-assembly.github.io/",
+        "paper": "https://ieeexplore.ieee.org/document/10447659"
+      }
     }
   ],
   "projects": [
     {
+      "id": "obstacle-avoidance",
+      "title": "Autonomous Driving: Path Planning & Control",
+      "year": 2020,
+      "academic_stage": "4th-year undergraduate",
+      "role": "Team Development Lead",
+      "repo": "https://github.com/Epsilon8854/Path-planning-based-on-korea-highway-information",
+      "image": "assets/images/obstacle-avoidance-animation.jpg",
+      "alt": "Original vehicle demonstration of static obstacle avoidance",
+      "description": "Led team development of path planning and vehicle control for the 2020 university creative-car competition. Integrated global reference paths prepared in QGIS, Pure Pursuit tracking, parking, static-obstacle avoidance with a local grid map and candidate paths, emergency braking, and traffic-light handling.",
+      "technologies": "C++ · Python · ROS · Vehicle control · Local planning · Global path planning · Pure Pursuit",
+      "links": {
+        "code": "https://github.com/Epsilon8854/Path-planning-based-on-korea-highway-information",
+        "obstacle-avoidance video": "https://youtu.be/2bW5VAYirro"
+      },
+      "animation": "assets/media/obstacle-avoidance.gif"
+    },
+    {
+      "id": "cooperative-driving",
+      "title": "Cooperative Driving at Intersections",
+      "year": 2020,
+      "repo": "https://github.com/Epsilon8854/Cooperative_Driving_At_InterSections_Using_ROS",
+      "image": "assets/images/cooperative-driving.jpg",
+      "image_source": "https://i.imgur.com/UM0WUk2.jpg",
+      "animation": "assets/media/cooperative-driving.gif",
+      "animation_source": "https://raw.githubusercontent.com/Epsilon8854/Cooperative_Driving_At_InterSections_Using_ROS/main/images/case1.gif",
+      "alt": "Cooperative intersection-driving demonstration with a red-light-violating vehicle",
+      "description": "Developed cooperative intersection driving using vehicle-to-infrastructure (V2I) communication and camera perception. Localized vehicles with ArUco markers relative to a traffic-light camera and demonstrated collision avoidance in red-light-violation scenarios.",
+      "technologies": "ROS · V2I communication · Computer vision · ArUco marker localization",
+      "links": {
+        "project & code": "https://github.com/Epsilon8854/Cooperative_Driving_At_InterSections_Using_ROS"
+      }
+    },
+    {
+      "id": "indoor-delivery",
+      "title": "Indoor Delivery Robot",
+      "year": 2020,
+      "repo": "https://github.com/Epsilon8854/Indoor_delivery_Robot",
+      "image": "assets/images/indoor-delivery.jpg",
+      "image_source": "https://raw.githubusercontent.com/Epsilon8854/Indoor_delivery_Robot/main/image/mbRobot.png",
+      "alt": "Indoor delivery robot and its mechanical model",
+      "description": "Built an indoor delivery robot using Gmapping to create maps, AMCL for localization, and a DWA local planner for navigation. Added a personal QR-code interaction for recipients to collect deliveries at the destination.",
+      "technologies": "ROS · Gmapping · AMCL · DWA local planning · QR-code interaction",
+      "links": {
+        "code": "https://github.com/Epsilon8854/Indoor_delivery_Robot",
+        "video": "https://youtu.be/MRtj2YxjFOw"
+      }
+    },
+    {
       "id": "lane-detection",
       "title": "RANSAC-based Lane Detection",
+      "year": 2019,
+      "academic_stage": "3rd-year undergraduate",
       "repo": "https://github.com/Epsilon8854/RANSAC_based_lane_dection",
       "image": "assets/images/lane-detection.jpg",
       "image_source": "https://i.imgur.com/Vvnq9gl.jpg",
       "animation": "assets/media/lane-detection.gif",
       "alt": "Lane detection with a bird's-eye image and RANSAC lane fitting",
-      "description": "A ROS vision pipeline that transforms camera images into a bird’s-eye view, detects white and yellow lanes with sliding-window RANSAC, and generates waypoints for lane following.",
+      "description": "Developed a ROS vision pipeline that transforms camera images into a bird’s-eye view, parameterizes lane lines in cylindrical coordinates, detects white and yellow lanes with sliding-window RANSAC, and generates waypoints for lane following.",
       "technologies": "C++ · ROS · Computer vision · RANSAC",
-      "links": {"code": "https://github.com/Epsilon8854/RANSAC_based_lane_dection", "video": "https://youtu.be/j_zlAQcO9JQ"}
+      "links": {
+        "code": "https://github.com/Epsilon8854/RANSAC_based_lane_dection",
+        "video": "https://youtu.be/j_zlAQcO9JQ"
+      }
     },
     {
-      "id": "obstacle-avoidance",
-      "title": "Autonomous Driving: Path Planning & Control",
-      "repo": "https://github.com/Epsilon8854/Path-planning-based-on-korea-highway-information",
-      "image": "assets/images/obstacle-avoidance-upload.webp",
-      "alt": "Original vehicle demonstration of static obstacle avoidance",
-      "description": "Path planning and vehicle control for the 2020 university creative-car competition: Pure Pursuit path following, parking, static-obstacle avoidance using a local grid map and candidate paths, emergency braking, and traffic-light handling.",
-      "technologies": "ROS · Pure Pursuit · Local planning · Vehicle control",
-      "links": {"code": "https://github.com/Epsilon8854/Path-planning-based-on-korea-highway-information", "obstacle-avoidance video": "https://youtu.be/2bW5VAYirro"}
+      "id": "balancing-robot",
+      "title": "Balancing Robot",
+      "year": 2019,
+      "repo": "https://github.com/Epsilon8854/Balancing_Robot",
+      "image": "assets/images/balancing-robot.jpg",
+      "image_source": "https://i.imgur.com/lQPQeCc.jpg",
+      "alt": "Self-balancing robot with a six-axis motion sensor and stepper motors",
+      "description": "Built a self-balancing robot that computes a balance error from a six-axis motion sensor and uses PID feedback to control stepper motors through an ARM Cortex-M microcontroller.",
+      "technologies": "C++ · ARM Cortex-M · PID control · Six-axis motion sensing · Stepper motors · TrueSTUDIO",
+      "links": {
+        "code": "https://github.com/Epsilon8854/Balancing_Robot",
+        "video": "https://youtu.be/7wd0D9_erO0?t=177"
+      }
     },
     {
       "id": "line-tracer",
       "title": "High-Speed Line Tracer",
+      "year": 2018,
+      "academic_stage": "2nd-year undergraduate",
       "repo": "https://github.com/Epsilon8854/High-Speed_LineTracer",
       "image": "assets/images/line-tracer.jpg",
       "image_source": "https://i.imgur.com/5YUE6kI.jpg",
       "alt": "Custom high-speed line-tracing robot with infrared sensors and stepper motors",
-      "description": "An STM32 / ARM Cortex-M line-following robot using infrared sensing, stepper motors, and PID steering and speed control. The project reports running speeds of 1.5–2.4 m/s.",
-      "technologies": "Embedded C · STM32 · Infrared sensing · PID control",
-      "links": {"code": "https://github.com/Epsilon8854/High-Speed_LineTracer", "video": "https://youtu.be/DuSCqCeqaWY"}
+      "description": "Built an STM32 / ARM Cortex-M line-following robot with hand-built hardware, infrared sensors, stepper motors, and PID steering and speed control. The project reports running speeds of 1.5–2.4 m/s.",
+      "technologies": "C (embedded) · ARM Cortex-M · STM32 · Infrared sensing · PID control · Hand-built hardware",
+      "links": {
+        "code": "https://github.com/Epsilon8854/High-Speed_LineTracer",
+        "video": "https://youtu.be/DuSCqCeqaWY"
+      }
     },
     {
       "id": "hand-rhythm",
       "title": "Hand-Tracking Rhythm Game",
+      "year": 2018,
+      "academic_stage": "2nd-year undergraduate",
       "repo": "https://github.com/Epsilon8854/HandPlaying_RhythmGame",
       "image": "assets/images/hand-rhythm.jpg",
       "animation": "assets/media/hand-rhythm.gif",
       "alt": "Rhythm game controlled by detected and tracked hand movements",
       "description": "A camera-based rhythm game controlled by hand motion. Color segmentation and histogram backprojection detect the hands, while Mean Shift tracks them for interactive gameplay.",
       "technologies": "C++ · OpenCV · MFC · Mean Shift tracking",
-      "links": {"project & code": "https://github.com/Epsilon8854/HandPlaying_RhythmGame"}
+      "links": {
+        "project & code": "https://github.com/Epsilon8854/HandPlaying_RhythmGame"
+      }
     }
   ]
 }

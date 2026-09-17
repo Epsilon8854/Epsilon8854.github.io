@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
-"""Retry public source media with browser-compatible requests and public mirrors.
-Never substitutes fabricated/simulated footage for the original driving demo.
-"""
+"""Cache original public research/project media without inventing demonstrations."""
 from __future__ import annotations
 import concurrent.futures
 import hashlib
@@ -10,7 +8,7 @@ import json
 from pathlib import Path
 import subprocess
 import tempfile
-from urllib.parse import urlsplit, quote
+from urllib.parse import urlsplit
 from curl_cffi import requests
 from PIL import Image, ImageOps
 from prepare_media import ROOT, IMAGES, MEDIA, SOURCES, gif
@@ -59,7 +57,6 @@ def recover_video():
                 gif(raw,output,start=start,duration=length,width=480)
                 return {'file':str(output.relative_to(ROOT)),'source':url,'status':'ok','clip_start_seconds':start,'duration_seconds':length,'fps':12}
         except Exception as exc: attempts.append(str(exc)[:250])
-    # YouTube's own short animated preview, when publicly provided, is real footage.
     preview='https://i.ytimg.com/an_webp/2bW5VAYirro/mqdefault_6s.webp'
     try:
         response=requests.get(preview,impersonate='chrome',timeout=20); response.raise_for_status()
@@ -74,14 +71,47 @@ def recover_video():
     except Exception as exc: attempts.append(str(exc)[:250])
     return {'file':str(output.relative_to(ROOT)),'source':url,'status':'unavailable','attempts':attempts,'note':'Original video remains linked. An original MP4 can be converted locally using tools/prepare_media.py.'}
 
+def recover_animation(item):
+    """Optimize a project-owned public GIF and keep the original source recorded."""
+    source=item.get('animation_source'); relative=item.get('animation')
+    if not source or not relative: return []
+    output=ROOT/relative
+    if output.exists(): return []
+    try:
+        with tempfile.TemporaryDirectory() as td:
+            raw=Path(td)/'source.gif'
+            response=requests.get(source,impersonate='chrome',timeout=45)
+            response.raise_for_status(); raw.write_bytes(response.content)
+            gif(raw,output,duration=8,width=480)
+        poster=IMAGES/(output.stem+'.jpg')
+        records=[]
+        for path in [output,poster]:
+            record={'file':str(path.relative_to(ROOT)),'source':source,'status':'ok','sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
+            if path==output: record.update(duration_seconds=8,fps=12)
+            records.append(record)
+        return records
+    except Exception as exc:
+        output.unlink(missing_ok=True)
+        return [{'file':relative,'source':source,'status':'unavailable','error':str(exc)}]
+
 if __name__=='__main__':
+    profile=json.loads((ROOT/'data/profile.json').read_text())
     manifest_path=MEDIA/'sources.json'
     old=json.loads(manifest_path.read_text()) if manifest_path.exists() else []
     records={r['file']:r for r in old}
+    sources={item[0]:item for item in SOURCES}
+    for item in profile['publications']+profile['projects']:
+        if item.get('image_source') and Path(item['image']).suffix=='.jpg':
+            name=Path(item['image']).name
+            sources.setdefault(name,(name,item['image_source'],800))
     with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
-        for record in pool.map(recover,SOURCES):
+        for record in pool.map(recover,sources.values()):
             if record: records[record['file']]=record
-    record=recover_video()
-    if record: records[record['file']]=record
+    for item in profile['projects']:
+        for record in recover_animation(item): records[record['file']]=record
+    # Do not retry or replace a user-supplied static thumbnail with unrelated media.
+    if any(item.get('animation')=='assets/media/obstacle-avoidance.gif' for item in profile['projects']):
+        record=recover_video()
+        if record: records[record['file']]=record
     manifest_path.write_text(json.dumps(list(records.values()),ensure_ascii=False,indent=2)+'\n')
     print('MEDIA_SUMMARY',json.dumps({k:v['status'] for k,v in records.items()}),flush=True)

@@ -75,13 +75,56 @@
   },
   {
     "file": "assets/media/obstacle-avoidance.gif",
-    "source": "https://www.youtube.com/watch?v=2bW5VAYirro",
-    "status": "unavailable",
-    "attempts": [
-      "Command '['yt-dlp', '--no-playlist', '--socket-timeout', '15', '--retries', '0', '--fragment-retries', '0', '--js-runtimes', 'node', '--extractor-args', 'youtube:player_client=android_vr', '-f', 'best[height<=480]/best', '-o', '/tmp/tmpat55u1uc/origi",
-      "Command '['yt-dlp', '--no-playlist', '--socket-timeout', '15', '--retries', '0', '--fragment-retries', '0', '--js-runtimes', 'node', '--extractor-args', 'youtube:player_client=web_safari', '-f', 'best[height<=480]/best', '-o', '/tmp/tmp_ogw_ur5/origi",
-      "HTTP Error 404: "
+    "source": "Owner-supplied GIF in ZIP, September 17, 2026",
+    "original_sha256": "e906931c20b6b5e715f4ec2138e045b3ae001737f21b50e02d03f1de2fe67896",
+    "original_frames": 122,
+    "original_duration_seconds": 8.54,
+    "optimized_source": "assets/media/obstacle-avoidance-source.webm",
+    "optimized_source_sha256": "ca494328072d8353c8f833ff99890f9427b643beee56364f5f41711da1691a0e",
+    "status": "ok",
+    "frames": 85,
+    "size": [
+      256,
+      142
     ],
-    "note": "Original video remains linked. An original MP4 can be converted locally using tools/prepare_media.py."
+    "fps": 10,
+    "duration_seconds": 8.5,
+    "sha256": "beb6816d909032df89ac182d19b88725e53aee76ad201aaff1f9a26c3e5c1a10",
+    "note": "Resized and re-encoded real footage for a lightweight thumbnail. No synthetic frames or unrelated footage."
+  },
+  {
+    "file": "assets/images/cooperative-driving.jpg",
+    "source": "https://raw.githubusercontent.com/Epsilon8854/Cooperative_Driving_At_InterSections_Using_ROS/main/images/case1.gif",
+    "status": "ok",
+    "sha256": "2e9313757a9d74343af2bb97a18f4a88222477afd902927f4870c47ae38e08c0"
+  },
+  {
+    "file": "assets/images/indoor-delivery.jpg",
+    "source": "https://raw.githubusercontent.com/Epsilon8854/Indoor_delivery_Robot/main/image/mbRobot.png",
+    "retrieved_from": "https://raw.githubusercontent.com/Epsilon8854/Indoor_delivery_Robot/main/image/mbRobot.png",
+    "status": "ok",
+    "sha256": "65d51334242a35e12d1c0e34ee7e8ca2881775662298e735881e7bd2e314f231"
+  },
+  {
+    "file": "assets/images/balancing-robot.jpg",
+    "source": "https://i.imgur.com/lQPQeCc.jpg",
+    "retrieved_from": "https://i.imgur.com/lQPQeCc.jpg",
+    "status": "ok",
+    "sha256": "d7e3edd600c06a1ce82f01c30818953a2cc7f0384b63607c6571015ee5616f70"
+  },
+  {
+    "file": "assets/media/cooperative-driving.gif",
+    "source": "https://raw.githubusercontent.com/Epsilon8854/Cooperative_Driving_At_InterSections_Using_ROS/main/images/case1.gif",
+    "status": "ok",
+    "sha256": "a7030a02333a83e5f5fde068cf5f2b1c8d13b17103e37173e107f5047263ea2e",
+    "duration_seconds": 8,
+    "fps": 12
+  },
+  {
+    "file": "assets/images/obstacle-avoidance-animation.jpg",
+    "source": "assets/media/obstacle-avoidance.gif",
+    "status": "ok",
+    "note": "First frame used when animations are paused or reduced motion is enabled.",
+    "sha256": "a4c787f33abb703f1029efcf4894cb100b03a2ed45629fd2cd1236ab14f170e7"
   }
 ]
