@@ -1,0 +1,4 @@
+.subheading{font-size:.72em;color:var(--muted);white-space:nowrap}
+.project-meta{margin:2px 0 7px}
+.technologies span{font-weight:600}
+@media(max-width:440px){.section-head{flex-wrap:wrap}.section-head h2{font-size:23px}}
