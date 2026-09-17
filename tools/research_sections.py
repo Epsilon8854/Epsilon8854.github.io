@@ -15,6 +15,8 @@ def render_research_sections() -> str:
         period = item['period']
         if item.get('kind') == 'Funded research project':
             period += ' · Funded research project (project period)'
+        if item.get('role'):
+            period += ' · ' + item['role']
         funding = f'<p class="funding"><em>{esc(item["funding"])}</em></p>' if item.get('funding') else ''
         articles.append(
             f'<article class="cv-item ongoing-item" id="{esc(item["id"])}">'
