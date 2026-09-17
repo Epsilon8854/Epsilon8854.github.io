@@ -28,6 +28,8 @@ jobs:
         run: gh api 'repos/${{ github.repository }}/pages' --jq '{html_url,build_type,source,status}'
       - name: Configure Pages
         uses: actions/configure-pages@v5
+      - name: Cache original undergraduate project thumbnails
+        run: python tools/fetch_project_media.py --strict
       - name: Build static profile and preserve existing project pages
         run: |
           python tools/build_site.py
@@ -35,7 +37,7 @@ jobs:
           cp index.html cv.html robots.txt sitemap.xml .nojekyll _site/
           cp -RL assets _site/assets
           cp -RL AiSDF _site/AiSDF
-          test -s _site/index.html
+          test -s _site/assets/media/obstacle-avoidance.gif
           test -s _site/assets/images/profile.jpg
           test -d _site/AiSDF
       - name: Upload complete static website
@@ -45,7 +47,7 @@ jobs:
       - name: Deploy GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-      - name: Verify deployed public pages and media
+      - name: Verify deployed pages and all visible media
         env:
           PAGE_URL: ${{ steps.deployment.outputs.page_url }}
         run: |
@@ -54,28 +56,35 @@ jobs:
           from pathlib import Path
           base=os.environ['PAGE_URL'].rstrip('/')+'/'
           checks={};errors=[]
-          targets={'':'Other Projects','cv.html':'Curriculum Vitae','AiSDF/':'AiSDF'}
+          profile=json.loads(Path('data/profile.json').read_text())
+          def fetch(path):
+              req=urllib.request.Request(base+path+'?deployment='+os.environ['GITHUB_SHA'],headers={'User-Agent':'GitHub-Pages-deployment-verification'})
+              with urllib.request.urlopen(req,timeout=30) as response:return response.read()
+          targets={'':None,'cv.html':None,'AiSDF/':'AiSDF'}
           for path,needle in targets.items():
-              url=base+path+'?deployment='+os.environ['GITHUB_SHA']
               last=''
               for attempt in range(8):
                   try:
-                      req=urllib.request.Request(url,headers={'User-Agent':'GitHub-Pages-deployment-verification'})
-                      with urllib.request.urlopen(req,timeout=20) as response:
-                          data=response.read();status=response.status
-                      if needle not in data.decode('utf-8'):raise ValueError('Expected page content not found')
-                      checks[path or '/']={'status':status,'expected_content':True}
+                      data=fetch(path)
+                      if path in ['', 'cv.html']:
+                          local=Path(path or 'index.html').read_bytes()
+                          assert hashlib.sha256(data).digest()==hashlib.sha256(local).digest(),'Page differs from current build'
+                      else: assert needle in data.decode('utf-8')
+                      checks[path or '/']={'verified':True}
                       break
-                  except Exception as exc:
-                      last=str(exc);time.sleep(5)
-              else: errors.append({'path':path,'error':last})
-          for path in Path('assets/images').glob('*.jpg'):
+                  except Exception as exc:last=str(exc);time.sleep(5)
+              else:errors.append({'path':path,'error':last})
+          media={'assets/images/profile.jpg'}
+          for item in profile['publications']+profile['projects']:
+              media.add(item['image'])
+              if item.get('animation'):media.add(item['animation'])
+          for path in sorted(media):
               try:
-                  with urllib.request.urlopen(base+str(path),timeout=20) as response:data=response.read()
-                  correct=hashlib.sha256(data).digest()==hashlib.sha256(path.read_bytes()).digest()
-                  checks[str(path)]={'hash_match':correct}
-                  if not correct:errors.append({'path':str(path),'error':'Media hash mismatch'})
-              except Exception as exc:errors.append({'path':str(path),'error':str(exc)})
+                  data=fetch(path)
+                  correct=hashlib.sha256(data).digest()==hashlib.sha256(Path(path).read_bytes()).digest()
+                  checks[path]={'hash_match':correct}
+                  if not correct:errors.append({'path':path,'error':'Media hash mismatch'})
+              except Exception as exc:errors.append({'path':path,'error':str(exc)})
           report={'page_url':base,'commit':os.environ['GITHUB_SHA'],'checks':checks,'errors':errors}
           Path('deployment-report.json').write_text(json.dumps(report,indent=2)+'\n')
           print(json.dumps(report,indent=2))

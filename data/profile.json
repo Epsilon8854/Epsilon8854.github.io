@@ -21,7 +21,8 @@
       "image_source": "https://unist.info/wp-content/uploads/2026/06/unisimslam_public-1-pdf.jpg",
       "alt": "Overview of UniSim-SLAM with two-view tracking and multi-view Sim(3) optimization",
       "description": "Combines fast two-view tracking with multi-view refinement through a unified Sim(3) factor graph for geometrically consistent feed-forward SLAM.",
-      "links": {"project page": "https://vision3d-lab.github.io/unisim-slam/", "paper": "https://arxiv.org/abs/2608.01706"}
+      "links": {"project page": "https://vision3d-lab.github.io/unisim-slam/", "paper": "https://arxiv.org/abs/2608.01706"},
+      "technologies": "Python"
     },
     {
       "id": "fedepth",
@@ -34,7 +35,8 @@
       "image_source": "https://unist.info/wp-content/uploads/2026/06/Homepage_publication-pdf.jpg",
       "alt": "FeDepth federated depth estimation across heterogeneous robot clients",
       "description": "Uses descriptor-based soft clustering to learn depth estimation across heterogeneous robots, environments, and sensing conditions without transferring raw data.",
-      "links": {"project page": "https://vision3d-lab.github.io/fedepth/", "paper": "https://arxiv.org/abs/2608.01129"}
+      "links": {"project page": "https://vision3d-lab.github.io/fedepth/", "paper": "https://arxiv.org/abs/2608.01129"},
+      "technologies": "Python"
     },
     {
       "id": "cse-dataset",
@@ -48,7 +50,8 @@
       "image_source": "https://unist.info/wp-content/uploads/2024/11/CSEDataset_News-pdf.jpg",
       "alt": "CSE Dataset service environments and collaborative robot trajectories",
       "description": "A synchronized multi-robot benchmark built in NVIDIA Isaac Sim, with three robots in hospital, office, and warehouse environments and paired static/dynamic sequences.",
-      "links": {"dataset & code": "https://github.com/vision3d-lab/CSE_Dataset", "paper": "https://ieeexplore.ieee.org/document/10742554", "video": "https://youtu.be/zGVHL1qYJsU"}
+      "links": {"dataset & code": "https://github.com/vision3d-lab/CSE_Dataset", "paper": "https://ieeexplore.ieee.org/document/10742554", "video": "https://youtu.be/zGVHL1qYJsU"},
+      "technologies": "Python · ROS · NVIDIA Isaac Sim"
     },
     {
       "id": "aisdf",
@@ -62,7 +65,8 @@
       "image_source": "https://unist.info/wp-content/uploads/2024/02/ral2024-AiSDF-teaser.png",
       "alt": "AiSDF neural indoor reconstruction and Atlanta-world planar structure",
       "description": "Reconstructs indoor scenes online by combining neural signed distance fields with Atlanta-world structural priors and explicit planar surfels.",
-      "links": {"project page": "https://vision3d-lab.github.io/AiSDF/", "paper": "https://ieeexplore.ieee.org/document/10463130"}
+      "links": {"project page": "https://vision3d-lab.github.io/AiSDF/", "paper": "https://ieeexplore.ieee.org/document/10463130"},
+      "technologies": "Python"
     },
     {
       "id": "frasier",
@@ -75,10 +79,49 @@
       "image_source": "https://unist.info/wp-content/uploads/2023/12/ICASSP2024-pulbication.png",
       "alt": "Fractured 3D shapes and their reassembly with segmentation and registration",
       "description": "Reassembles fractured 3D objects by segmenting broken surfaces and aligning fragments through iterative point-cloud registration.",
-      "links": {"project page": "https://frasier-assembly.github.io/", "paper": "https://ieeexplore.ieee.org/document/10447659"}
+      "links": {"project page": "https://frasier-assembly.github.io/", "paper": "https://ieeexplore.ieee.org/document/10447659"},
+      "technologies": "Python"
     }
   ],
   "projects": [
+    {
+      "id": "obstacle-avoidance",
+      "title": "Autonomous Driving: Path Planning & Control",
+      "repo": "https://github.com/Epsilon8854/Path-planning-based-on-korea-highway-information",
+      "image": "assets/images/obstacle-avoidance-upload.webp",
+      "alt": "Original vehicle demonstration of static obstacle avoidance",
+      "description": "Led team development of the path-planning and vehicle-control system for the 2020 university creative-car competition. Integrated global reference paths prepared in QGIS with local obstacle avoidance, Pure Pursuit tracking, parking, emergency braking, and traffic-light handling.",
+      "technologies": "C++ · Python · ROS · Vehicle control · Local planning · Global path planning · Pure Pursuit · QGIS",
+      "links": {"code": "https://github.com/Epsilon8854/Path-planning-based-on-korea-highway-information", "obstacle-avoidance video": "https://youtu.be/2bW5VAYirro"},
+      "year": 2020,
+      "undergraduate_year": 4,
+      "role": "Team Development Lead",
+      "animation": "assets/media/obstacle-avoidance.gif"
+    },
+    {
+      "id": "cooperative-driving",
+      "title": "Cooperative Driving at Intersections",
+      "year": 2020,
+      "repo": "https://github.com/Epsilon8854/Cooperative_Driving_At_InterSections_Using_ROS",
+      "image": "assets/images/cooperative-driving.jpg",
+      "image_source": "https://i.imgur.com/UM0WUk2.jpg",
+      "alt": "Experimental intersection for vehicle-to-infrastructure cooperative driving",
+      "description": "Combined vehicle-to-infrastructure (V2I) communication with camera-based vehicle localization for intersection collision avoidance. Used ArUco markers to estimate vehicle positions relative to the traffic-light camera and tested scenarios with a red-light-violating vehicle.",
+      "technologies": "ROS · V2I communication · Computer vision · ArUco localization · Collision avoidance",
+      "links": {"code & demos": "https://github.com/Epsilon8854/Cooperative_Driving_At_InterSections_Using_ROS"}
+    },
+    {
+      "id": "indoor-delivery",
+      "title": "Indoor Delivery Robot",
+      "year": 2020,
+      "repo": "https://github.com/Epsilon8854/Indoor_delivery_Robot",
+      "image": "assets/images/indoor-delivery.png",
+      "image_source": "https://raw.githubusercontent.com/Epsilon8854/Indoor_delivery_Robot/main/image/mbRobot.png",
+      "alt": "Indoor delivery robot and its corresponding 3D model",
+      "description": "Integrated GMapping for map creation, AMCL for localization, and the Dynamic Window Approach (DWA) for local navigation in an indoor delivery robot. Added QR-code-based recipient verification at the delivery destination.",
+      "technologies": "ROS · GMapping · AMCL · DWA local planning · QR-code verification",
+      "links": {"code": "https://github.com/Epsilon8854/Indoor_delivery_Robot", "video": "https://youtu.be/MRtj2YxjFOw"}
+    },
     {
       "id": "lane-detection",
       "title": "RANSAC-based Lane Detection",
@@ -87,19 +130,23 @@
       "image_source": "https://i.imgur.com/Vvnq9gl.jpg",
       "animation": "assets/media/lane-detection.gif",
       "alt": "Lane detection with a bird's-eye image and RANSAC lane fitting",
-      "description": "A ROS vision pipeline that transforms camera images into a bird’s-eye view, detects white and yellow lanes with sliding-window RANSAC, and generates waypoints for lane following.",
+      "description": "A ROS vision pipeline that transforms camera images into a bird’s-eye view, parameterizes lane lines in cylindrical coordinates, and fits white and yellow lanes with sliding-window RANSAC to generate waypoints for lane following.",
       "technologies": "C++ · ROS · Computer vision · RANSAC",
-      "links": {"code": "https://github.com/Epsilon8854/RANSAC_based_lane_dection", "video": "https://youtu.be/j_zlAQcO9JQ"}
+      "links": {"code": "https://github.com/Epsilon8854/RANSAC_based_lane_dection", "video": "https://youtu.be/j_zlAQcO9JQ"},
+      "year": 2019,
+      "undergraduate_year": 3
     },
     {
-      "id": "obstacle-avoidance",
-      "title": "Autonomous Driving: Path Planning & Control",
-      "repo": "https://github.com/Epsilon8854/Path-planning-based-on-korea-highway-information",
-      "image": "assets/images/obstacle-avoidance-upload.webp",
-      "alt": "Original vehicle demonstration of static obstacle avoidance",
-      "description": "Path planning and vehicle control for the 2020 university creative-car competition: Pure Pursuit path following, parking, static-obstacle avoidance using a local grid map and candidate paths, emergency braking, and traffic-light handling.",
-      "technologies": "ROS · Pure Pursuit · Local planning · Vehicle control",
-      "links": {"code": "https://github.com/Epsilon8854/Path-planning-based-on-korea-highway-information", "obstacle-avoidance video": "https://youtu.be/2bW5VAYirro"}
+      "id": "balancing-robot",
+      "title": "Balancing Robot",
+      "year": 2019,
+      "repo": "https://github.com/Epsilon8854/Balancing_Robot",
+      "image": "assets/images/balancing-robot.jpg",
+      "image_source": "https://i.imgur.com/lQPQeCc.jpg",
+      "alt": "Self-balancing robot with stepper motors and a six-axis motion sensor",
+      "description": "Built a self-balancing robot using a six-axis motion sensor and PID feedback control. An ARM Cortex-M microcontroller converts the balance error into stepper-motor commands.",
+      "technologies": "C++ · ARM Cortex-M · TrueSTUDIO · PID control · Six-axis sensing · Stepper motors",
+      "links": {"code": "https://github.com/Epsilon8854/Balancing_Robot", "video": "https://youtu.be/7wd0D9_erO0?t=177"}
     },
     {
       "id": "line-tracer",
@@ -108,9 +155,11 @@
       "image": "assets/images/line-tracer.jpg",
       "image_source": "https://i.imgur.com/5YUE6kI.jpg",
       "alt": "Custom high-speed line-tracing robot with infrared sensors and stepper motors",
-      "description": "An STM32 / ARM Cortex-M line-following robot using infrared sensing, stepper motors, and PID steering and speed control. The project reports running speeds of 1.5–2.4 m/s.",
-      "technologies": "Embedded C · STM32 · Infrared sensing · PID control",
-      "links": {"code": "https://github.com/Epsilon8854/High-Speed_LineTracer", "video": "https://youtu.be/DuSCqCeqaWY"}
+      "description": "Built a high-speed line-following robot with hand-built hardware, an STM32 / ARM Cortex-M microcontroller, infrared sensors, and stepper motors. PID steering and speed control support running speeds of 1.5–2.4 m/s.",
+      "technologies": "C (Embedded C) · ARM Cortex-M · STM32 · Infrared sensing · PID control",
+      "links": {"code": "https://github.com/Epsilon8854/High-Speed_LineTracer", "video": "https://youtu.be/DuSCqCeqaWY"},
+      "year": 2018,
+      "undergraduate_year": 2
     },
     {
       "id": "hand-rhythm",
@@ -121,7 +170,34 @@
       "alt": "Rhythm game controlled by detected and tracked hand movements",
       "description": "A camera-based rhythm game controlled by hand motion. Color segmentation and histogram backprojection detect the hands, while Mean Shift tracks them for interactive gameplay.",
       "technologies": "C++ · OpenCV · MFC · Mean Shift tracking",
-      "links": {"project & code": "https://github.com/Epsilon8854/HandPlaying_RhythmGame"}
+      "links": {"project & code": "https://github.com/Epsilon8854/HandPlaying_RhythmGame"},
+      "year": 2018,
+      "undergraduate_year": 2
+    }
+  ],
+  "research_interests": ["SLAM", "Multi-Agent Systems", "Lifelong SLAM", "Active Perception"],
+  "ongoing_work": [
+    {
+      "id": "spatial-memory",
+      "title": "Long-Horizon Spatial Memory for Multi-Robot Geometric Foundation Models",
+      "period": "2026–Present",
+      "kind": "Ongoing research",
+      "description": "Developing shared spatial memory for multi-robot geometric foundation models, with revisit-driven updates for implicit loop closure and efficient map representations."
+    },
+    {
+      "id": "lifelong-map-management",
+      "title": "Lifelong 3D Map Management with Multi-Session Scene Change Detection",
+      "period": "2026–Present",
+      "kind": "Ongoing research",
+      "description": "Developing real-time, multi-session scene change detection to update 3D maps as environments evolve."
+    },
+    {
+      "id": "ai-bots",
+      "title": "AI Bots Collaboration Platform and Self-Organizing AI",
+      "period": "2022–2026",
+      "kind": "Funded research project",
+      "funding": "IITP · RS-2022-II220907",
+      "description": "Researching multi-robot SLAM, inter-robot coordination, and collaborative mapping for distributed autonomous systems."
     }
   ]
 }

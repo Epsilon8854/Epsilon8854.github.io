@@ -1,0 +1,55 @@
+name: Prepare and verify confirmed CV update
+on:
+  push:
+    branches: [feat/apply-cv-projects-20260917]
+    paths: ['.profile-update/**', 'tools/finalize_profile_update.py', '.github/workflows/prepare-confirmed-cv.yml']
+permissions:
+  contents: write
+concurrency:
+  group: confirmed-cv-update
+  cancel-in-progress: false
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install media and verification tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
+          python -m pip install Pillow beautifulsoup4 playwright
+          python -m playwright install --with-deps chromium
+      - name: Assemble uploaded GIF and cache original project thumbnails
+        run: python tools/finalize_profile_update.py
+      - name: Generate and verify homepage and CV
+        run: |
+          python tools/build_site.py
+          node --check assets/site.js
+          python tools/verify_site.py
+      - name: Commit verified generated files and media
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html cv.html assets .profile-update
+          if ! git diff --cached --quiet; then
+            git commit -m 'Publish verified undergraduate projects, ongoing research and original driving animation'
+            git push origin 'HEAD:${{ github.ref_name }}'
+          fi
+      - name: Save verification and preview
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: confirmed-cv-update-verification
+          path: |
+            verification
+            index.html
+            cv.html
+            data/profile.json
+            assets
+          retention-days: 7
