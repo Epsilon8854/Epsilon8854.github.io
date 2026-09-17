@@ -168,8 +168,8 @@
       "image": "assets/images/indoor-delivery.jpg",
       "image_source": "https://raw.githubusercontent.com/Epsilon8854/Indoor_delivery_Robot/main/image/mbRobot.png",
       "alt": "Indoor delivery robot and its mechanical model",
-      "description": "Built an indoor delivery robot using Gmapping to create maps, AMCL for localization, and a DWA local planner for navigation. Added a personal QR-code interaction for recipients to collect deliveries at the destination.",
-      "technologies": "ROS · Gmapping · AMCL · DWA local planning · QR-code interaction",
+      "description": "Built an indoor delivery robot using Gmapping to create maps, AMCL for localization, and a DWA local planner for navigation.",
+      "technologies": "ROS · Gmapping · AMCL · DWA local planning",
       "links": {
         "code": "https://github.com/Epsilon8854/Indoor_delivery_Robot",
         "video": "https://youtu.be/MRtj2YxjFOw"
@@ -201,7 +201,7 @@
       "image_source": "https://i.imgur.com/lQPQeCc.jpg",
       "alt": "Self-balancing robot with a six-axis motion sensor and stepper motors",
       "description": "Built a self-balancing robot that computes a balance error from a six-axis motion sensor and uses PID feedback to control stepper motors through an ARM Cortex-M microcontroller.",
-      "technologies": "C++ · ARM Cortex-M · PID control · Six-axis motion sensing · Stepper motors · TrueSTUDIO",
+      "technologies": "C++ · ARM Cortex-M · PID control · Six-axis motion sensing · Stepper motors",
       "links": {
         "code": "https://github.com/Epsilon8854/Balancing_Robot",
         "video": "https://youtu.be/7wd0D9_erO0?t=177"
