@@ -83,5 +83,33 @@
       "HTTP Error 404: "
     ],
     "note": "Original video remains linked. An original MP4 can be converted locally using tools/prepare_media.py."
+  },
+  {
+    "file": "assets/images/cooperative-driving.jpg",
+    "source": "https://raw.githubusercontent.com/Epsilon8854/Cooperative_Driving_At_InterSections_Using_ROS/main/images/case1.gif",
+    "status": "ok",
+    "sha256": "2e9313757a9d74343af2bb97a18f4a88222477afd902927f4870c47ae38e08c0"
+  },
+  {
+    "file": "assets/images/indoor-delivery.jpg",
+    "source": "https://raw.githubusercontent.com/Epsilon8854/Indoor_delivery_Robot/main/image/mbRobot.png",
+    "retrieved_from": "https://raw.githubusercontent.com/Epsilon8854/Indoor_delivery_Robot/main/image/mbRobot.png",
+    "status": "ok",
+    "sha256": "65d51334242a35e12d1c0e34ee7e8ca2881775662298e735881e7bd2e314f231"
+  },
+  {
+    "file": "assets/images/balancing-robot.jpg",
+    "source": "https://i.imgur.com/lQPQeCc.jpg",
+    "retrieved_from": "https://i.imgur.com/lQPQeCc.jpg",
+    "status": "ok",
+    "sha256": "d7e3edd600c06a1ce82f01c30818953a2cc7f0384b63607c6571015ee5616f70"
+  },
+  {
+    "file": "assets/media/cooperative-driving.gif",
+    "source": "https://raw.githubusercontent.com/Epsilon8854/Cooperative_Driving_At_InterSections_Using_ROS/main/images/case1.gif",
+    "status": "ok",
+    "sha256": "a7030a02333a83e5f5fde068cf5f2b1c8d13b17103e37173e107f5047263ea2e",
+    "duration_seconds": 8,
+    "fps": 12
   }
 ]
