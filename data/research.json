@@ -27,7 +27,7 @@
       "kind": "Funded research project",
       "role": "Team Leader",
       "funding": "IITP · RS-2022-II220907",
-      "description": "Developing multi-robot SLAM, inter-robot coordination, and collaborative mapping for distributed autonomous systems."
+      "description": "Developing a robust decentralized multi-agent SLAM system designed to operate reliably under diverse real-world noise and uncertainties."
     }
   ]
 }
