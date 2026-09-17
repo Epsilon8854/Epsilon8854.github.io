@@ -1,0 +1,26 @@
+name: Sync generated CV HTML
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/sync-generated-cv.yml']
+permissions:
+  contents: write
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Rebuild generated pages
+        run: python tools/build_site.py
+      - name: Commit generated CV
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add cv.html index.html
+          if ! git diff --cached --quiet; then
+            git commit -m 'Sync generated CV and homepage [skip ci]'
+            git push origin HEAD:main
+          fi
