@@ -4,6 +4,7 @@ from __future__ import annotations
 import html
 import json
 from pathlib import Path
+from research_sections import render_research_sections
 ROOT = Path(__file__).resolve().parents[1]
 P = json.loads((ROOT / 'data/profile.json').read_text())
 def esc(value): return html.escape(str(value), quote=True)
@@ -16,11 +17,12 @@ def contact(cv=False):
     return '<nav class="contact-links" aria-label="Contact and profiles">' + ''.join(link(u,t) for u,t in entries) + '</nav>'
 def head(title, path=''):
     description = 'Inha Lee — SLAM, geometric foundation models, neural 3D reconstruction, and collaborative robot perception. UNIST 3D Vision & Robotics Lab.'
+    research_styles = '<link rel="stylesheet" href="assets/research.css">' if path == 'cv.html' else ''
     return f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}</title><meta name="description" content="{esc(description)}"><meta name="author" content="Inha Lee">
 <link rel="canonical" href="{esc(P['site']+path)}"><meta property="og:type" content="website"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(description)}"><meta property="og:url" content="{esc(P['site']+path)}"><meta property="og:image" content="{esc(P['site'])}assets/images/profile.jpg"><meta name="twitter:card" content="summary">
-<meta name="color-scheme" content="light"><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="assets/site.css"><link rel="stylesheet" href="assets/project-metadata.css"><script src="assets/site.js" defer></script>
+<meta name="color-scheme" content="light"><link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="assets/site.css"><link rel="stylesheet" href="assets/project-metadata.css">{research_styles}<script src="assets/site.js" defer></script>
 </head>'''
 def thumb(item):
     target = item.get('repo') or next(iter(item['links'].values()))
@@ -61,6 +63,7 @@ page = head('Inha Lee | Robotics & 3D Vision') + f'''<body><a class="skip-link" 
 cv = head('Inha Lee | Curriculum Vitae', 'cv.html') + f'''<body><main class="cv-page"><div class="cv-toolbar"><a href="index.html">← Back to homepage</a><button class="print-button" data-print>Print / Save as PDF</button></div>
 <header class="cv-header"><h1>Inha Lee <span lang="ko" style="font-size:17px;letter-spacing:0">이인하</span></h1><p>{esc(P['degree'])} · UNIST</p><p>SLAM · Geometric foundation models · Neural 3D reconstruction · Collaborative perception</p>{contact(True)}</header>
 <section class="cv-section"><h2>Education &amp; Research Affiliation</h2><article class="cv-item"><h3>Ulsan National Institute of Science and Technology (UNIST)</h3><p>Integrated M.S.–Ph.D. program · 3D Vision &amp; Robotics Lab</p><p>Advisor: Kyungdon Joo</p></article></section>
+{render_research_sections()}
 <section class="cv-section"><h2>Selected Research &amp; Publications</h2><p class="cv-small">* Equal contribution. Author order follows the original publications.</p>{''.join(publication(p,True) for p in P['publications'])}</section>
 <section class="cv-section"><h2>Undergraduate Engineering Projects</h2>{''.join(project(p,True) for p in P['projects'])}</section>
 <footer class="footer"><p>Full publication record: <a href="{esc(P['scholar'])}">Google Scholar</a></p><p><a href="index.html">epsilon8854.github.io</a></p></footer></main></body></html>'''

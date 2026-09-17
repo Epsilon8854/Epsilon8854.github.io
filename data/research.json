@@ -1,0 +1,32 @@
+{
+  "research_interests": [
+    "SLAM",
+    "Multi-Agent Systems",
+    "Lifelong SLAM",
+    "Active Perception"
+  ],
+  "ongoing_work": [
+    {
+      "id": "spatial-memory",
+      "title": "Long-Horizon Spatial Memory for Multi-Robot Geometric Foundation Models",
+      "period": "2026–Present",
+      "kind": "Ongoing research",
+      "description": "Developing shared spatial memory for multi-robot geometric foundation models, with revisit-driven updates for implicit loop closure and efficient map representations."
+    },
+    {
+      "id": "lifelong-map-management",
+      "title": "Lifelong 3D Map Management with Multi-Session Scene Change Detection",
+      "period": "2026–Present",
+      "kind": "Ongoing research",
+      "description": "Developing real-time, multi-session scene change detection to update 3D maps as environments evolve."
+    },
+    {
+      "id": "ai-bots",
+      "title": "AI Bots Collaboration Platform and Self-Organizing AI",
+      "period": "2022–2026",
+      "kind": "Funded research project",
+      "funding": "IITP · RS-2022-II220907",
+      "description": "Researching multi-robot SLAM, inter-robot coordination, and collaborative mapping for distributed autonomous systems."
+    }
+  ]
+}
